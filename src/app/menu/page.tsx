@@ -761,7 +761,7 @@ export default function MenuPage() {
                         {cat}
                       </h2>
                       <img
-                        src="/line-divider.png"
+                        src={getImagePath("/line-divider.png")}
                         alt=""
                         className="mx-auto"
                         style={{

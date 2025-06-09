@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ReservationForm from '@/components/reservation/ReservationForm';
+import { getImagePath } from '@/lib/imagePath';
 
 export default function ReservationsPage() {
   return (
@@ -11,7 +12,7 @@ export default function ReservationsPage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px]">
         <Image
-          src="/banner1.png"
+          src={getImagePath("/banner1.png")}
           alt="Reservation Background"
           fill
           className="object-cover"
@@ -138,7 +139,7 @@ export default function ReservationsPage() {
                   </h3>
                   <div className="relative h-64 rounded-2xl overflow-hidden mb-4">
                     <Image
-                      src="/banner2.png"
+                      src={getImagePath("/banner2.png")}
                       alt="Restaurant Location"
                       fill
                       className="object-cover"
@@ -182,7 +183,7 @@ export default function ReservationsPage() {
             >
               <div className="relative h-64">
                 <Image
-                  src="/banner3.png"
+                  src={getImagePath("/banner3.png")}
                   alt="Private Dining Room"
                   fill
                   className="object-cover"
@@ -222,7 +223,7 @@ export default function ReservationsPage() {
             >
               <div className="relative h-64">
                 <Image
-                  src="/banner1.png"
+                  src={getImagePath("/banner1.png")}
                   alt="Banquet Hall"
                   fill
                   className="object-cover"
