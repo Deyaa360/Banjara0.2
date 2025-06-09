@@ -153,7 +153,7 @@ export function Footer() {
                     placeholder="Enter your email"
                   />
                   <div className="mt-3 sm:ml-4 sm:mt-0">
-                    <Button type="submit" variant="heritage">
+                    <Button type="submit" variant="default">
                       Subscribe
                     </Button>
                   </div>
