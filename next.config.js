@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
+const isGithubPages = process.env.GITHUB_ACTIONS || false;
+const repoName = 'Banjara0.2'; // Your repo name
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Disable symlinks to avoid the EINVAL error
+  output: 'export',
+  basePath: isGithubPages ? `/${repoName}` : '',
+  assetPrefix: isGithubPages ? `/${repoName}/` : '',
+  images: {
+    unoptimized: true,
+  },
   experimental: {
     // Disable features that might be causing issues
     serverComponentsExternalPackages: [],
