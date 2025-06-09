@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Heart, Users, Award, MapPin, Clock, Star } from 'lucide-react';
+import { getImagePath } from "@/lib/imagePath";
 
 export default function AboutPage() {
   const values = [
@@ -35,7 +36,7 @@ export default function AboutPage() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/images/about/about-hero.jpg"
+            src={getImagePath("/images/about/about-hero.jpg")}
             alt="Banjara Restaurant Heritage"
             fill
             className="object-cover scale-105"
@@ -187,7 +188,7 @@ export default function AboutPage() {
             >
               <div className="relative h-[600px] rounded-3xl overflow-hidden shadow-luxury-lg">
                 <Image
-                  src="/heritage.png"
+                  src={getImagePath("/heritage.png")}
                   alt="Banjara Heritage - Carrying Forward Ancient Traditions"
                   fill
                   className="object-cover"

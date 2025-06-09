@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import { getImagePath } from "@/lib/imagePath";
 import {
   Carousel,
   CarouselContent,
@@ -19,21 +20,21 @@ export default function Home() {
   
   const bannerContent = [
     {
-      src: '/banner1.png',
+      src: getImagePath('/banner1.png'),
       alt: 'Authentic Indian Cuisine - Banner 1',
       title: 'A Journey Through',
       subtitle: 'Authentic Indian Flavors',
       description: 'Experience the rich tapestry of Indian cuisine, where every dish tells a story of tradition, passion, and culinary excellence.'
     },
     {
-      src: '/banner2.png', 
+      src: getImagePath('/banner2.png'), 
       alt: 'Traditional Banjara Dishes - Banner 2',
       title: 'Where Tradition',
       subtitle: 'Meets Innovation',
       description: 'Discover a modern interpretation of age-old recipes, crafted with precision and served in an atmosphere of timeless elegance.'
     },
     {
-      src: '/banner3.png',
+      src: getImagePath('/banner3.png'),
       alt: 'Nomadic Culinary Experience - Banner 3',
       title: 'An Experience',
       subtitle: 'Beyond Dining',
@@ -229,7 +230,7 @@ export default function Home() {
               >
                 <div className="relative w-full h-full rounded-2xl overflow-hidden">
                   <Image
-                    src="/banner2.png"
+                    src={getImagePath("/banner2.png")}
                     alt="Traditional Banjara Cuisine"
                     fill
                     sizes="(max-width: 1024px) 100vw, 500px"
@@ -286,7 +287,7 @@ export default function Home() {
         {/* Background Pattern */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-400/5 via-transparent to-transparent" />
-          <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] bg-[url('/patterns/indian-pattern.png')] bg-repeat" />
+          <div className="absolute top-0 left-0 w-full h-full opacity-[0.02]" style={{ backgroundImage: `url(${getImagePath("/patterns/indian-pattern.png")})`, backgroundRepeat: 'repeat' }} />
           <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-charcoal-900/5 to-transparent" />
           {/* Decorative Elements */}
           <div className="absolute top-1/4 -left-20 w-40 h-40 bg-amber-400/10 rounded-full blur-3xl" />
