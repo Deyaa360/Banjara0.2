@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Award, Leaf, Users, Clock } from 'lucide-react';
+import { getImagePath } from "@/lib/imagePath";
 
 const AboutSection = () => {
   const features = [
@@ -114,7 +115,7 @@ const AboutSection = () => {
           >
             <div className="relative h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl">
               <Image 
-                src="/banner2.png" 
+                src={getImagePath("/banner2.png")} 
                 alt="Traditional Banjara Dishes and Heritage" 
                 fill
                 className="object-cover"

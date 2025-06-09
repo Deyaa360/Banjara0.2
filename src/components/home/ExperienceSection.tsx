@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { Camera, Heart, Star, Users } from 'lucide-react';
+import { getImagePath } from "@/lib/imagePath";
 
 const ExperienceSection = () => {
   const experiences = [
@@ -51,7 +52,7 @@ const ExperienceSection = () => {
           >
             <div className="relative h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-luxury-lg">
               <Image 
-                src="/banner3.png" 
+                src={getImagePath("/banner3.png")} 
                 alt="Nomadic Culinary Experience at Banjara Restaurant" 
                 fill
                 className="object-cover"

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
+import { getImagePath } from "@/lib/imagePath";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -64,7 +65,7 @@ const Header = () => {
         <nav className="container mx-auto px-6 py-3 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="relative w-20 h-20">
-            <Image src="/LOGO.png" alt="Banjara Logo" fill className="object-contain" priority />
+            <Image src={getImagePath("/LOGO.png")} alt="Banjara Logo" fill className="object-contain" priority />
           </Link>
           {/* Desktop Navigation (only on lg+) */}
           <div className="hidden lg:flex items-center gap-10">
@@ -114,7 +115,7 @@ const Header = () => {
         >
           <div className="flex items-center justify-between">
             <Link href="/" className="relative w-16 h-16">
-              <Image src="/LOGO.png" alt="Banjara Logo" fill className="object-contain" priority />
+              <Image src={getImagePath("/LOGO.png")} alt="Banjara Logo" fill className="object-contain" priority />
             </Link>
             <button
               type="button"

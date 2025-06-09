@@ -4,25 +4,26 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { getImagePath } from "@/lib/imagePath";
 
 const GallerySection = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   
   const galleryImages = [
     {
-      src: '/banner1.png',
+      src: getImagePath('/banner1.png'),
       alt: 'Authentic Indian Cuisine - Signature Dishes',
       title: 'Signature Dishes',
       description: 'Authentic flavors from across the Indian subcontinent'
     },
     {
-      src: '/banner2.png', 
+      src: getImagePath('/banner2.png'), 
       alt: 'Traditional Banjara Heritage - Cultural Dining',
       title: 'Cultural Heritage',
       description: 'Experience the rich traditions of nomadic cuisine'
     },
     {
-      src: '/banner3.png',
+      src: getImagePath('/banner3.png'),
       alt: 'Nomadic Culinary Experience - Restaurant Ambiance',
       title: 'Dining Experience',
       description: 'Immerse yourself in our authentic atmosphere'
