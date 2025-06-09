@@ -67,7 +67,7 @@ export function Footer() {
               Banjara
             </Link>
             <p className="text-sm text-primary-dark/70">
-              Experience the rich heritage of Indian cuisine in an elegant setting.
+              Experience the rich heritage of Indian cuisine in an elegant and authentic setting.
             </p>
             <div className="flex space-x-6">
               {navigation.social.map((item) => (
