@@ -322,9 +322,9 @@ const processMenuImages = (data: MenuData): MenuData => {
       }));
     } else {
       // Object with subcategories
-      result[category] = {};
+      result[category] = {} as { [key: string]: MenuItem[] };
       Object.entries(items).forEach(([subCategory, subItems]) => {
-        result[category][subCategory] = subItems.map(item => ({
+        (result[category] as { [key: string]: MenuItem[] })[subCategory] = subItems.map(item => ({
           ...item,
           image: getImagePath(item.image)
         }));
