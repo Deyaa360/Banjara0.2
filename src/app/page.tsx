@@ -341,19 +341,19 @@ export default function Home() {
                     {
                       name: "Butter Chicken",
                       description: "A royal dish from the kitchens of Punjab, featuring tender chicken in a rich tomato gravy, finished with cream and butter powder.",
-                      image: "/images/menu/BUTTER CHICKEN (PUNJAB).png",
+                      image: getImagePath("/images/menu/BUTTER CHICKEN (PUNJAB).png"),
                       region: "Punjab"
                     },
                     {
                       name: "Galauti Kebab",
                       description: "Minced goat, vetiver, rosewater ghee, fried onion, cardamom, mint chutney",
-                      image: "/images/menu/GALAUTI KEBAB (LUCKNOW).png",
+                      image: getImagePath("/images/menu/GALAUTI KEBAB (LUCKNOW).png"),
                       region: "Lucknow"
                     },
                     {
                       name: "Nalli Biryani",
                       description: "Lamb shank, saffron, mint, and yogurt",
-                      image: "/images/menu/NALLI BIRYANI (HYDERABAD).png",
+                      image: getImagePath("/images/menu/NALLI BIRYANI (HYDERABAD).png"),
                       region: "Hyderabad"
                     }
                   ].map((dish, index) => (

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { getImagePath } from "@/lib/imagePath";
 
 // Menu item type
 interface MenuItem {
@@ -290,23 +291,52 @@ const signatureDishes: Array<{ name: string; description: string; image: string;
     name: "Butter Chicken",
     description:
       "A royal dish from the kitchens of Punjab, featuring tender chicken in a rich tomato gravy, finished with cream and butter powder.",
-    image: "/images/menu/BUTTER CHICKEN (PUNJAB).png",
+    image: getImagePath("/images/menu/BUTTER CHICKEN (PUNJAB).png"),
     region: "Punjab",
   },
   {
     name: "Galauti Kebab",
     description:
       "Minced goat, vetiver, rosewater ghee, fried onion, cardamom, mint chutney",
-    image: "/images/menu/GALAUTI KEBAB (LUCKNOW).png",
+    image: getImagePath("/images/menu/GALAUTI KEBAB (LUCKNOW).png"),
     region: "Lucknow",
   },
   {
     name: "Nalli Biryani",
     description: "Lamb shank, saffron, mint, and yogurt",
-    image: "/images/menu/NALLI BIRYANI (HYDERABAD).png",
+    image: getImagePath("/images/menu/NALLI BIRYANI (HYDERABAD).png"),
     region: "Hyderabad",
   },
 ];
+
+// Process all menu images to use getImagePath
+const processMenuImages = (data: MenuData): MenuData => {
+  const result: MenuData = {};
+  
+  Object.entries(data).forEach(([category, items]) => {
+    if (Array.isArray(items)) {
+      // Simple array of items
+      result[category] = items.map(item => ({
+        ...item,
+        image: getImagePath(item.image)
+      }));
+    } else {
+      // Object with subcategories
+      result[category] = {};
+      Object.entries(items).forEach(([subCategory, subItems]) => {
+        result[category][subCategory] = subItems.map(item => ({
+          ...item,
+          image: getImagePath(item.image)
+        }));
+      });
+    }
+  });
+  
+  return result;
+};
+
+// Process all menu images
+const processedMenuData = processMenuImages(menuData);
 
 const categories: string[] = ["View All", ...Object.keys(menuData)];
 
@@ -564,7 +594,7 @@ export default function MenuPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-[url('/images/menu/menu-texture.jpg')] bg-repeat bg-fixed bg-charcoal-900 relative overflow-x-hidden">
+      <main className="min-h-screen bg-charcoal-900 relative overflow-x-hidden" style={{ backgroundImage: `url(${getImagePath("/images/menu/menu-texture.jpg")})`, backgroundRepeat: 'repeat', backgroundAttachment: 'fixed' }}>
         {/* Decorative Background Overlays - removed overlays for clear texture */}
         {/* Hero Section - Minimal Menu Banner */}
         <section className="relative min-h-[20vh] flex items-center justify-center overflow-hidden bg-transparent pt-24 md:pt-32">
@@ -717,7 +747,7 @@ export default function MenuPage() {
         <section id="menu" className="py-20 relative z-10">
           <div className="container mx-auto px-6">
             {activeTab === "View All" ? (
-              Object.entries(menuData).map(([cat, data]) => {
+              Object.entries(processedMenuData).map(([cat, data]) => {
                 let items: MenuItem[] = [];
                 if (Array.isArray(data)) items = data;
                 else items = Object.values(data).flat();
@@ -749,7 +779,7 @@ export default function MenuPage() {
               })
             ) : (
               (() => {
-                const data = menuData[activeTab];
+                const data = processedMenuData[activeTab];
                 if (!data) return null;
                 let items: MenuItem[] = [];
                 if (Array.isArray(data)) {
