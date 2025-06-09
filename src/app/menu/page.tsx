@@ -594,7 +594,7 @@ export default function MenuPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-charcoal-900 relative overflow-x-hidden" style={{ backgroundImage: `url(${getImagePath("/images/menu/menu-texture.jpg")})`, backgroundRepeat: 'repeat', backgroundAttachment: 'fixed' }}>
+      <main className="min-h-screen bg-charcoal-900 relative overflow-x-hidden">
         {/* Decorative Background Overlays - removed overlays for clear texture */}
         {/* Hero Section - Minimal Menu Banner */}
         <section className="relative min-h-[20vh] flex items-center justify-center overflow-hidden bg-transparent pt-24 md:pt-32">
