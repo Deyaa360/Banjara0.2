@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { getImagePath } from "@/lib/imagePath";
+import FeaturedDishesSimple from "@/components/FeaturedDishesSimple";
 import {
   Carousel,
   CarouselContent,
@@ -471,137 +472,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Menu Highlights Section */}
-      <section className="relative bg-gradient-to-b from-[#F5F0E6] to-white overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-400/5 via-transparent to-transparent" />
-          <div className="absolute top-0 left-0 w-full h-full opacity-[0.02]" style={{ backgroundImage: `url(${getImagePath("/patterns/indian-pattern.png")})`, backgroundRepeat: 'repeat' }} />
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-charcoal-900/5 to-transparent" />
-          {/* Decorative Elements */}
-          <div className="absolute top-1/4 -left-20 w-40 h-40 bg-amber-400/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-amber-400/10 rounded-full blur-3xl" />
-          {/* Color Accents */}
-          <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-saffron-500/5 rounded-full blur-[100px]" />
-          <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-amber-400/5 rounded-full blur-[100px]" />
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 via-transparent to-saffron-500/5" />
-        </div>
-
-        <div className="container-luxury relative z-10 py-32">
+      {/* Chef's Featured Creations Section */}
+      <section className="py-20 bg-stone-900 overflow-hidden relative">
+        <div className="container mx-auto px-4">
           {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-24"
-          >
-            <div className="inline-flex items-center gap-4 mb-8">
-              <div className="h-px w-16 sm:w-24 bg-gradient-to-r from-transparent to-amber-400" />
-              <span className="text-amber-600 text-sm font-medium tracking-[0.5em] uppercase font-body">
-                Signature Collection
-              </span>
-              <div className="h-px w-16 sm:w-24 bg-gradient-to-l from-transparent to-amber-400" />
-            </div>
-            
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-charcoal-900 mb-8 leading-tight">
-              Culinary
-              <br />
-              <span className="text-gradient-amber">Masterpieces</span>
-            </h2>
-            <p className="text-charcoal-600 text-lg max-w-2xl mx-auto leading-relaxed">
-              Experience the rich tapestry of Indian cuisine through our carefully curated selection of signature dishes, 
-              each telling a unique story of tradition and innovation.
-            </p>
-          </motion.div>
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-5 tracking-tight drop-shadow-sm" style={{ color: '#e6c07a' }}>
+                Chef's <span style={{ color: '#f3d296', textShadow: '0 0 20px rgba(230, 192, 122, 0.3)' }}>Featured</span> Creations
+              </h2>
+              <p className="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed font-medium tracking-wide" style={{ color: 'rgba(228, 221, 207, 0.85)' }}>
+                Discover our most celebrated dishes, each telling a unique story of India's rich culinary heritage
+              </p>
+            </motion.div>
+          </div>
 
-          {/* Elegant Carousel Section */}
-          <div className="w-full py-24">
-            <div className="container mx-auto px-4">
-              <Carousel
-                opts={{
-                  align: "center",
-                  loop: true,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-4">
-                  {[
-                    {
-                      name: "Butter Chicken",
-                      description: "A royal dish from the kitchens of Punjab, featuring tender chicken in a rich tomato gravy, finished with cream and butter powder.",
-                      image: getImagePath("/images/menu/BUTTER CHICKEN (PUNJAB).png"),
-                      region: "Punjab"
-                    },
-                    {
-                      name: "Galauti Kebab",
-                      description: "Minced goat, vetiver, rosewater ghee, fried onion, cardamom, mint chutney",
-                      image: getImagePath("/images/menu/GALAUTI KEBAB (LUCKNOW).png"),
-                      region: "Lucknow"
-                    },
-                    {
-                      name: "Nalli Biryani",
-                      description: "Lamb shank, saffron, mint, and yogurt",
-                      image: getImagePath("/images/menu/NALLI BIRYANI (HYDERABAD).png"),
-                      region: "Hyderabad"
-                    }
-                  ].map((dish, index) => (
-                    <CarouselItem key={dish.name} className="pl-4 basis-full md:basis-3/4 lg:basis-2/3">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.2 }}
-                        viewport={{ once: true }}
-                        className="group relative h-[600px]"
-                        style={{
-                          opacity: index === 1 ? 1 : 0.3,
-                          transform: index === 1 ? 'scale(1)' : 'scale(0.9)',
-                          transition: 'all 0.5s ease-in-out'
-                        }}
-                      >
-                        <div className="relative h-full rounded-[2rem] overflow-hidden shadow-2xl transition-all duration-500">
-                          <Image
-                            src={dish.image}
-                            alt={dish.name}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80" />
-                          <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 via-transparent to-saffron-500/10" />
-                          
-                          {/* Content Overlay */}
-                          <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
-                            <div className="flex items-center gap-3 mb-4">
-                              <div className="h-px w-12 bg-amber-400" />
-                              <span className="text-amber-400 text-sm font-medium tracking-wider uppercase">{dish.region}</span>
-                              <div className="h-px w-12 bg-amber-400" />
-                            </div>
-                            <h3 className="text-4xl font-display font-bold text-white mb-4">{dish.name}</h3>
-                            <p className="text-white/90 text-base mb-8 max-w-md leading-relaxed">
-                              {dish.description}
-                            </p>
-                            <Button
-                              asChild
-                              className="bg-transparent hover:bg-amber-400 text-amber-400 hover:text-white font-medium px-8 py-4 rounded-full border-2 border-amber-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-                            >
-                              <Link href="/menu">View Details</Link>
-                            </Button>
-                          </div>
-
-                          {/* Decorative Corner */}
-                          <div className="absolute top-6 right-6 w-24 h-24 border-t-2 border-r-2 border-amber-400/30 rounded-tr-3xl" />
-                          <div className="absolute bottom-6 left-6 w-24 h-24 border-b-2 border-l-2 border-amber-400/30 rounded-bl-3xl" />
-                        </div>
-                      </motion.div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                
-                {/* Default shadcn Navigation Buttons */}
-                <CarouselPrevious className="h-8 w-8" />
-                <CarouselNext className="h-8 w-8" />
-              </Carousel>
-            </div>
+          {/* Simple Featured Dishes */}
+          <div className="w-full overflow-hidden">
+            <FeaturedDishesSimple />
           </div>
         </div>
       </section>

@@ -26,3 +26,36 @@
 .animate-shine {
   animation: shine 3s infinite ease-in-out;
 }
+
+/* Chef's Featured Creations shine effect */
+@keyframes shineOnce {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shine-once-carousel {
+  animation: shineOnce 1.5s forwards ease-out;
+  animation-play-state: paused;
+}
+
+.group:hover .shine-once-carousel {
+  animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .shine-once-carousel {
+    animation-play-state: running;
+    animation-delay: 0.5s;
+  }
+}
+
+/* 3D Effect for carousel */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
