@@ -260,8 +260,8 @@ export default function Home() {
                             transitionPhase === 'fadeIn' ? 'translateY(15px)' :
                             'translateY(0)',
                   transition: transitionPhase === 'fadeOut'
-                    ? 'all 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0.1s'
-                    : 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.8s',
+                    ? 'opacity 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0.1s, transform 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0.1s'
+                    : 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.8s, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.8s',
                 }}
               >
                 <Link href="/reservations">
@@ -296,13 +296,15 @@ export default function Home() {
                 </Link>
                 <Link href="/menu">
                     <button
-                      className="group px-8 sm:px-10 py-4 text-base font-medium rounded-full transition-colors duration-300 border-2 backdrop-blur-sm isolate overflow-hidden"
+                      className="group px-8 sm:px-10 py-4 text-base font-medium rounded-full transition-all duration-300 border-2 isolate overflow-hidden"
                       style={{
                         backgroundColor: 'rgba(0, 0, 0, 0.3)',
                         color: '#e6c07a',
                         borderColor: 'rgba(230, 192, 122, 0.4)',
                         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-                        backdropFilter: 'blur(4px)'
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
+                        transition: 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
@@ -310,6 +312,8 @@ export default function Home() {
                         e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.6)';
                         e.currentTarget.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.3)';
                         e.currentTarget.style.backdropFilter = 'blur(4px)';
+                        e.currentTarget.style.WebkitBackdropFilter = 'blur(4px)';
+                        e.currentTarget.style.transition = 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
@@ -317,6 +321,8 @@ export default function Home() {
                         e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.4)';
                         e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
                         e.currentTarget.style.backdropFilter = 'blur(4px)';
+                        e.currentTarget.style.WebkitBackdropFilter = 'blur(4px)';
+                        e.currentTarget.style.transition = 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s';
                       }}
                     >
                       <div className="flex items-center gap-3">
