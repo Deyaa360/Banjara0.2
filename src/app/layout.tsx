@@ -27,7 +27,8 @@ const playfair = Playfair_Display({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 };
 
 export const metadata: Metadata = {
@@ -75,6 +76,18 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            if ('scrollRestoration' in history) {
+              history.scrollRestoration = 'manual';
+            }
+            window.addEventListener('pageshow', function(event) {
+              if (event.persisted) {
+                window.scrollTo(0, 0);
+              }
+            });
+          `
+        }} />
       </body>
     </html>
   );
