@@ -163,14 +163,14 @@ const FeaturedDishesSimple = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Left and right clickable areas with swipe indicators for mobile */}
+        {/* Left and right clickable areas with swipe indicators for all screen sizes */}
         <div 
           className="absolute left-0 top-0 w-1/3 h-full z-30 cursor-pointer flex items-center" 
           onClick={handlePrevSlide} 
           aria-label="Previous slide"
         >
-          <div className="md:hidden w-10 h-10 ml-3 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-            <ChevronLeft size={24} className="text-white/70" />
+          <div className="w-10 h-10 ml-3 sm:ml-5 bg-black/30 hover:bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10 hover:border-amber-400/30 group">
+            <ChevronLeft size={24} className="text-white/70 group-hover:text-amber-300" />
           </div>
         </div>
         <div 
@@ -178,8 +178,8 @@ const FeaturedDishesSimple = () => {
           onClick={handleNextSlide} 
           aria-label="Next slide"
         >
-          <div className="md:hidden w-10 h-10 mr-3 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-            <ChevronRight size={24} className="text-white/70" />
+          <div className="w-10 h-10 mr-3 sm:mr-5 bg-black/30 hover:bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10 hover:border-amber-400/30 group">
+            <ChevronRight size={24} className="text-white/70 group-hover:text-amber-300" />
           </div>
         </div>
         
@@ -364,22 +364,7 @@ const FeaturedDishesSimple = () => {
           })}
         </div>
 
-        {/* Navigation Controls with improved hover effects */}
-        <button
-          onClick={handlePrevSlide}
-          disabled={isTransitioning}
-          className="absolute left-4 sm:left-8 md:left-12 top-1/2 -translate-y-1/2 z-30 group/arrow bg-black/30 hover:bg-black/40 backdrop-blur-xl border border-white/20 hover:border-amber-400/50 rounded-full p-2 sm:p-3 md:p-4 transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white/80 group-hover/arrow:text-amber-300 transition-colors duration-300" />
-        </button>
-        
-        <button
-          onClick={handleNextSlide}
-          disabled={isTransitioning}
-          className="absolute right-4 sm:right-8 md:right-12 top-1/2 -translate-y-1/2 z-30 group/arrow bg-black/30 hover:bg-black/40 backdrop-blur-xl border border-white/20 hover:border-amber-400/50 rounded-full p-2 sm:p-3 md:p-4 transition-all duration-500 hover:scale-110 shadow-2xl hover:shadow-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white/80 group-hover/arrow:text-amber-300 transition-colors duration-300" />
-        </button>
+        {/* No standalone navigation buttons - using the side clickable areas only */}
       </div>
       
       {/* Indicator Dots with improved animations */}
