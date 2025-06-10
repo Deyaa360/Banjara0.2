@@ -92,12 +92,12 @@ const FeaturedDishesSimple = () => {
   };
   
   // Handle touch events for swipe
-  const handleTouchStart = (e) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
   };
   
-  const handleTouchMove = (e) => {
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     setTouchEnd(e.targetTouches[0].clientX);
   };
   
