@@ -160,7 +160,7 @@ export default function Home() {
 
         {/* Content with Beautiful Text Effects */}
         <div className="absolute inset-0 flex items-center justify-center z-20">
-          <div className="container text-center text-white">
+          <div className="container text-center text-white pt-16 md:pt-20 lg:pt-0">
             <div className="max-w-5xl mx-auto">
               {/* Title */}
               <h1
