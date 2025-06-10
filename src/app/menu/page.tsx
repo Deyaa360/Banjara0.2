@@ -356,43 +356,45 @@ const GoldAccentDivider = () => (
 
 function MenuListItem({ item }: { item: MenuItem }) {
   return (
-    <div className="py-12 md:py-16 group">
+    <div className="py-8 md:py-16 group">
       {/* Top gold accent line */}
-      <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-gold-700/30 to-transparent mb-7" />
+      <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-gold-700/30 to-transparent mb-5 md:mb-7" />
       <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10">
         {/* Main info and price in a row */}
         <div className="flex-1 order-3 md:order-2 flex flex-col justify-center">
-          <div className="flex flex-row items-center gap-4 mb-2">
+          <div className="flex flex-row items-start md:items-center gap-3 md:gap-4 mb-2">
             <div className="flex flex-col gap-1 flex-1">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center flex-wrap gap-2">
                 <span
-                  className="font-display font-extrabold text-2xl md:text-4xl bg-gradient-to-r from-gold-200 via-gold-100 to-gold-400 bg-clip-text text-transparent tracking-tight leading-tight"
+                  className="font-display font-extrabold text-xl md:text-4xl bg-gradient-to-r from-gold-200 via-gold-100 to-gold-400 bg-clip-text text-transparent tracking-tight leading-tight"
                   style={{ letterSpacing: "-0.01em" }}
                 >
                   {item.name}
                 </span>
-                {item.isVegetarian && (
-                  <Leaf className="w-4 h-4 text-green-500" />
-                )}
-                {item.isSignature && (
-                  <Star className="w-4 h-4 text-gold-400" />
-                )}
+                <div className="flex items-center gap-1">
+                  {item.isVegetarian && (
+                    <Leaf className="w-4 h-4 text-green-500" />
+                  )}
+                  {item.isSignature && (
+                    <Star className="w-4 h-4 text-gold-400" />
+                  )}
+                </div>
               </div>
               <div className="w-10 md:w-14 h-0.5 bg-gradient-to-r from-gold-400/60 to-gold-700/10 rounded-full mt-1 mb-0" />
             </div>
             {/* Price, right-aligned with the title */}
-            <span className="font-serif text-base md:text-lg font-normal text-gold-200/40 tracking-wide opacity-60 text-right min-w-[60px] md:min-w-[80px] ml-2">
+            <span className="font-serif text-base md:text-lg font-normal text-gold-200/40 tracking-wide opacity-60 text-right min-w-[50px] md:min-w-[80px] mt-1 md:mt-0">
               ${item.price}
             </span>
           </div>
-          <div className="flex flex-wrap items-center gap-4 mt-1 mb-3">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-1 mb-2">
             <div className="flex items-center gap-1.5">
-              <span className="text-gold-300 text-[11px] font-semibold uppercase tracking-[0.18em]">Spice</span>
+              <span className="text-gold-300 text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.18em]">Spice</span>
               <div className="flex items-center gap-0.5">
                 {[...Array(3)].map((_, i) => (
                   <Flame
                     key={i}
-                    size={13}
+                    size={12}
                     className={cn(
                       i < (item.spiceLevel || 0)
                         ? 'text-gold-400'
@@ -403,19 +405,19 @@ function MenuListItem({ item }: { item: MenuItem }) {
               </div>
             </div>
             {item.region && (
-              <div className="flex items-center gap-1 text-gold-400 text-[11px] uppercase font-semibold tracking-[0.18em]">
+              <div className="flex items-center gap-1 text-gold-400 text-[10px] md:text-[11px] uppercase font-semibold tracking-[0.18em]">
                 <MapPin className="w-3 h-3" />
                 {item.region}
               </div>
             )}
           </div>
-          <div className="text-gold-100/95 text-[16px] md:text-xl font-serif font-light italic mt-3 leading-relaxed tracking-wide max-w-2xl">
+          <div className="text-gold-100/95 text-sm md:text-xl font-serif font-light italic mt-2 md:mt-3 leading-relaxed tracking-wide max-w-2xl">
             {item.description}
           </div>
         </div>
       </div>
       {/* Bottom gold accent line */}
-      <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-gold-700/30 to-transparent mt-8" />
+      <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-gold-700/30 to-transparent mt-6 md:mt-8" />
     </div>
   );
 }
@@ -479,14 +481,14 @@ export default function MenuPage() {
     const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
 
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
         {filteredItems.map((item) => (
           <div
             key={item.id}
             id={`menu-card-${item.id}`}
             className={
               cn(
-                "menu-visual-card relative h-[480px] md:h-[540px] rounded-[2rem] overflow-hidden shadow-2xl bg-charcoal-900 border transition-all duration-500 flex flex-col justify-end cursor-pointer",
+                "menu-visual-card relative h-[400px] md:h-[540px] rounded-xl md:rounded-[2rem] overflow-hidden shadow-2xl bg-charcoal-900 border transition-all duration-500 flex flex-col justify-end cursor-pointer",
                 activeCardId === item.id ? "ring-2 ring-gold-400 border-gold-400" : "border-gold-700/30"
               )
             }
@@ -496,13 +498,13 @@ export default function MenuPage() {
               setActiveCardId(activeCardId === item.id ? null : item.id);
             }}
             onMouseEnter={() => {
-              if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+              if (isDesktop) {
                 setActiveCardId(item.id);
                 setHoveredCardId(item.id);
               }
             }}
             onMouseLeave={() => {
-              if (typeof window !== 'undefined' && window.innerWidth >= 1024 && hoveredCardId === item.id) {
+              if (isDesktop && hoveredCardId === item.id) {
                 setActiveCardId(null);
                 setHoveredCardId(null);
               }
@@ -612,8 +614,8 @@ export default function MenuPage() {
               Browse by category, read about each dish, and let us know if you have any questions or preferences.
             </p>
           </div>
-          {/* Visual Mode Switch - simplified styling, top right */}
-          <div className="fixed md:absolute top-6 right-6 z-[100] flex items-center gap-2">
+          {/* Visual Mode Switch - hidden on mobile, visible on desktop */}
+          <div className="hidden md:flex absolute top-6 right-6 z-[100] items-center gap-2">
             <span className="text-gold-300 text-sm font-serif mr-1">Visual Mode</span>
             <button
               type="button"
@@ -639,12 +641,12 @@ export default function MenuPage() {
         <section className="bg-charcoal-900/95 backdrop-blur-lg border-b border-gold-700/30 sticky top-0 z-40 shadow-xl">
           {/* Mobile view - Tabs as scrollable row with toggle at right */}
           <div className="md:hidden container mx-auto px-2 py-3">
-            <div className="flex items-center justify-end gap-3 mb-1">
-              {/* Vegetarian filter toggle for mobile */}
+            <div className="flex items-center justify-between gap-3 mb-2">
+              {/* Vegetarian filter toggle for mobile - moved to left */}
               <div className="flex items-center gap-2">
                 <Leaf className={`w-4 h-4 ${switchToggled ? 'text-green-400 animate-pulse' : 'text-green-500/70'}`} />
                 <span className={`text-xs font-serif ${switchToggled ? 'text-green-400' : 'text-gold-300'}`}>
-                  Vegetarian Only
+                  Veg Only
                 </span>
                 <button
                   type="button"
@@ -662,10 +664,32 @@ export default function MenuPage() {
                   ></span>
                 </button>
               </div>
+              
+              {/* View mode toggle for mobile */}
+              <div className="flex items-center gap-2">
+                <span className="text-gold-300 text-xs font-serif">Visual</span>
+                <button
+                  type="button"
+                  aria-pressed={viewMode === 'visual'}
+                  onClick={() => setViewMode(viewMode === 'visual' ? 'list' : 'visual')}
+                  className={
+                    'relative w-10 h-5 rounded-full transition-colors duration-300 focus:outline-none ' +
+                    (viewMode === 'visual' ? 'bg-gradient-to-r from-gold-400 to-gold-500' : 'bg-gold-700/30')
+                  }
+                  style={{ outline: 'none' }}
+                >
+                  <span
+                    className={
+                      'absolute top-0.5 left-0.5 w-4 h-4 rounded-full transition-transform duration-300 bg-gold-200 transform ' +
+                      (viewMode === 'visual' ? 'translate-x-5' : 'translate-x-0')
+                    }
+                  ></span>
+                </button>
+              </div>
             </div>
             
             {/* Custom scroll container with elegant indicator */}
-            <div className="relative">
+            <div className="relative mt-2">
               {/* Ultra-thin elegant scroll indicator with animation */}
               <div className="absolute bottom-0 left-0 w-full overflow-hidden h-[1px]">
                 <div className="absolute bottom-0 left-0 right-0 h-[0.5px] bg-gradient-to-r from-transparent via-gold-400/10 to-transparent"></div>
@@ -676,15 +700,15 @@ export default function MenuPage() {
               
               {/* Scrollable tabs with hidden native scrollbar */}
               <div className="flex overflow-x-auto no-scrollbar"
-                style={{ WebkitOverflowScrolling: 'touch', paddingBottom: '4px' }}
+                style={{ WebkitOverflowScrolling: 'touch', paddingBottom: '6px' }}
                 onScroll={(e) => e.stopPropagation()}>
-                <div className="flex gap-2" style={{ paddingRight: '20px' }}>
+                <div className="flex gap-3 pb-1 pl-1" style={{ paddingRight: '20px' }}>
                 {categories.map((category) => (
                   <Button
                     key={category}
                     variant="ghost"
                     className={cn(
-                      "px-3 py-1.5 rounded-xl text-sm font-semibold whitespace-nowrap border transition-all duration-300 tracking-wide font-serif flex-shrink-0",
+                      "px-3 py-2 rounded-xl text-sm font-medium whitespace-nowrap border transition-all duration-300 tracking-wide font-serif flex-shrink-0",
                       activeTab === category
                         ? "bg-gradient-to-r from-gold-500 to-gold-600 text-charcoal-900 border-gold-500 shadow-lg"
                         : "bg-charcoal-800 text-gold-400 border-gold-700/40 hover:bg-charcoal-700 hover:text-gold-300"
@@ -744,8 +768,8 @@ export default function MenuPage() {
           </div>
         </section>
         {/* Menu Items Section - unified background, no dividers */}
-        <section id="menu" className="py-20 relative z-10">
-          <div className="container mx-auto px-6">
+        <section id="menu" className="py-10 md:py-20 relative z-10">
+          <div className="container mx-auto px-4 md:px-6">
             {activeTab === "View All" ? (
               Object.entries(processedMenuData).map(([cat, data]) => {
                 let items: MenuItem[] = [];

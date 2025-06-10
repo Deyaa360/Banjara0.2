@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Enhanced Header Animations */
+@import './header-animations.css';
+
 @layer base {
   :root {
     --font-sans: var(--font-inter);

@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { X, MapPin, Clock, Phone, Mail } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import { getImagePath } from "@/lib/imagePath";
@@ -20,70 +20,133 @@ const navigation = [
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
-  const [isTransparent, setIsTransparent] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const lastScrollY = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
 
+  // Effect for handling scroll events
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let ticking = false;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (currentScrollY <= 20) {
-            setShowHeader(true);
-            setIsTransparent(true);
-          } else if (currentScrollY > lastScrollY) {
-            setShowHeader(false); // scrolling down
-            setIsTransparent(false);
-          } else {
-            setShowHeader(true); // scrolling up
-            setIsTransparent(false);
-          }
-          lastScrollY = currentScrollY;
-          ticking = false;
-        });
-        ticking = true;
+      
+      // Add active class when scrolled past 50px
+      if (currentScrollY >= 50) {
+        setIsScrolled(true);
+        
+        // Hide header when scrolling down, show when scrolling up
+        if (currentScrollY > lastScrollY.current) {
+          setShowHeader(false); // scrolling down
+        } else {
+          setShowHeader(true); // scrolling up
+        }
+      } else {
+        setIsScrolled(false);
+        setShowHeader(true);
       }
+      
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close menu when clicking on a link
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+  
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
-    <header
-      className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300 will-change-transform border-b border-gold-400/30",
-        isTransparent
-          ? "bg-transparent border-transparent shadow-none"
-          : "bg-charcoal-900/90 backdrop-blur-lg shadow-elegant border-b border-gold-400/30",
-        showHeader ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-      )}
-    >
-      {/* Only show nav bar when mobile menu is closed */}
-      {!isOpen && (
-        <nav className="container mx-auto px-6 py-3 flex items-center justify-between">
+    <>
+      {/* Top bar */}
+      <div className={cn(
+        "top-bar hidden md:block text-gold-200 py-2 border-b border-gold-400/20 fixed top-0 left-0 w-full z-40",
+        isScrolled ? "bg-charcoal-950/95 backdrop-blur-sm" : "bg-transparent",
+        !showHeader && "transform -translate-y-full"
+      )}>
+        <div className="container mx-auto flex flex-wrap justify-between items-center px-4 text-sm">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-gold-400" />
+              <span>123 Main Street, New York, NY</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-gold-400" />
+              <span>Open: 11:00 a.m. - 10:00 p.m.</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-6">
+            <a href="tel:+12345678900" className="flex items-center gap-2 hover:text-gold-400 transition-colors">
+              <Phone className="w-4 h-4 text-gold-400" />
+              <span>+1 (234) 567-8900</span>
+            </a>
+            <a href="mailto:info@banjara.com" className="flex items-center gap-2 hover:text-gold-400 transition-colors">
+              <Mail className="w-4 h-4 text-gold-400" />
+              <span>info@banjara.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <header 
+        ref={headerRef}
+        className={cn(
+          "banjara-header fixed left-0 w-full z-50 transition-all duration-300 border-b",
+          "md:top-[40px]", // Offset for the top bar on desktop
+          "top-0", // No offset on mobile
+          isScrolled 
+            ? "active bg-charcoal-900/95 backdrop-blur-lg shadow-elegant border-gold-400/30 py-3 md:py-4" 
+            : "bg-transparent border-transparent py-5 md:py-8",
+          !showHeader && "hide"
+        )}
+      >
+        <div className="container mx-auto px-4 flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="relative w-20 h-20">
-            <Image src={getImagePath("/LOGO.png")} alt="Banjara Logo" fill className="object-contain" priority />
+          <Link href="/" className="relative z-10">
+            <div className="relative w-20 h-20">
+              <Image 
+                src={getImagePath("/LOGO.png")} 
+                alt="Banjara Logo" 
+                fill 
+                className="object-contain" 
+                priority 
+              />
+            </div>
           </Link>
+
           {/* Desktop Navigation (only on lg+) */}
           <div className="hidden lg:flex items-center gap-10">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "group relative text-base font-medium tracking-wider transition-colors duration-300 px-2 py-1",
-                  pathname === item.href
-                    ? "text-gold-400"
-                    : "text-white hover:text-gold-400"
-                )}
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gold-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left" />
-              </Link>
-            ))}
+            <ul className="flex items-center gap-8">
+              {navigation.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "hover-underline text-base font-medium tracking-wider transition-colors duration-300 px-2 py-1",
+                      pathname === item.href
+                        ? "text-gold-400 active"
+                        : "text-white hover:text-gold-400"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
             <Button 
               variant="outline" 
               className="ml-4 border-gold-400 text-gold-400 hover:bg-gold-400 hover:text-charcoal-900 font-semibold px-6 py-2 rounded-full transition-all duration-300"
@@ -92,68 +155,119 @@ const Header = () => {
               <Link href="/reservations">Book a Table</Link>
             </Button>
           </div>
-          {/* Mobile: Only logo and hamburger (no nav links, no book button) */}
-          <div className="flex lg:hidden items-center gap-2">
-            {/* Hamburger menu button */}
+
+          {/* Mobile: Menu Button */}
+          <div className="flex lg:hidden">
             <button
               type="button"
-              className="text-gold-400 hover:text-gold-300 transition-colors"
+              className="nav-toggle-btn text-gold-400 hover:text-gold-300 p-2"
               onClick={() => setIsOpen(true)}
+              aria-label="Open main menu"
             >
-              <span className="sr-only">Open main menu</span>
-              <Menu className="h-7 w-7" aria-hidden="true" />
+              <span className="line line-1"></span>
+              <span className="line line-2"></span>
+              <span className="line line-3"></span>
             </button>
-          </div>
-        </nav>
-      )}
-      {/* Mobile Menu Overlay - only when open */}
-      {isOpen && (
-        <div
-          className={cn(
-            "fixed inset-0 z-50 lg:hidden flex flex-col bg-charcoal-900/95 backdrop-blur-lg shadow-elegant px-6 py-6"
-          )}
-        >
-          <div className="flex items-center justify-between">
-            <Link href="/" className="relative w-16 h-16">
-              <Image src={getImagePath("/LOGO.png")} alt="Banjara Logo" fill className="object-contain" priority />
-            </Link>
-            <button
-              type="button"
-              className="text-gold-400 hover:text-gold-300 transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              <span className="sr-only">Close menu</span>
-              <X className="h-7 w-7" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="mt-8 flow-root flex-1">
-            <div className="space-y-2 py-6">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    "group block rounded-lg px-3 py-3 text-lg font-medium transition-colors",
-                    pathname === item.href
-                      ? "text-gold-400"
-                      : "text-white hover:text-gold-400"
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                  <span className="absolute -bottom-1 left-3 w-[calc(100%-1.5rem)] h-0.5 bg-gold-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left" />
-                </Link>
-              ))}
-            </div>
-            <div className="py-6">
-              <Button variant="outline" className="w-full border-gold-400 text-gold-400 hover:bg-gold-400 hover:text-charcoal-900 font-semibold px-6 py-3 rounded-full transition-all duration-300" asChild>
-                <Link href="/reservations">Book a Table</Link>
-              </Button>
-            </div>
           </div>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <div 
+        className={cn(
+          "menu-overlay fixed inset-0 z-40 lg:hidden",
+          isOpen ? "active" : ""
+        )}
+        onClick={closeMenu}
+      ></div>
+      
+      {/* Sliding Menu Panel (slides from left) */}
+      <div 
+        className={cn(
+          "mobile-navbar fixed inset-y-0 left-0 z-50 lg:hidden bg-charcoal-900 shadow-xl flex flex-col",
+          isOpen ? "active" : ""
+        )}
+      >
+        <div className="flex items-center justify-between p-6">
+          <Link href="/" className="relative w-16 h-16" onClick={closeMenu}>
+            <Image 
+              src={getImagePath("/LOGO.png")} 
+              alt="Banjara Logo" 
+              fill 
+              className="object-contain" 
+              priority 
+            />
+          </Link>
+          <button
+            type="button"
+            className="text-gold-400 hover:text-gold-300 transition-colors p-2 border border-gold-400/30 rounded-full"
+            onClick={closeMenu}
+            aria-label="Close menu"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto pt-4 px-6">
+          <ul className="space-y-0">
+            {navigation.map((item, index) => (
+              <li 
+                key={item.name} 
+                className="mobile-nav-link"
+                style={{ "--index": index } as React.CSSProperties}
+              >
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "mobile-navbar-link block py-4 text-lg font-medium uppercase tracking-wider",
+                    pathname === item.href ? "active" : ""
+                  )}
+                  onClick={closeMenu}
+                >
+                  <div className="separator h-px w-6 bg-gold-400 mr-2"></div>
+                  <span className="span">
+                    {item.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="text-center mt-10 mb-6">
+            <p className="text-xl font-serif text-gold-400 mb-2">Visit Us</p>
+            <address className="text-white/80 not-italic text-sm mb-2">
+              123 Main Street, <br />
+              New York, NY
+            </address>
+            <p className="text-white/80 text-sm">Open: 11:00 a.m. - 10:00 p.m.</p>
+            
+            <div className="my-8 flex items-center justify-center">
+              <div className="topbar-separator mx-3"></div>
+              <div className="topbar-separator mx-3"></div>
+              <div className="topbar-separator mx-3"></div>
+            </div>
+            
+            <p className="text-gold-400/80 text-sm uppercase tracking-wide mb-2">For Reservations</p>
+            <a 
+              href="tel:+12345678900" 
+              className="block text-xl text-white hover:text-gold-400 transition-colors hover-underline mx-auto"
+            >
+              +1 (234) 567-8900
+            </a>
+          </div>
+        </nav>
+
+        <div className="p-6 border-t border-gold-400/20">
+          <Button 
+            variant="outline" 
+            className="w-full border-gold-400 text-gold-400 hover:bg-gold-400 hover:text-charcoal-900 font-semibold px-6 py-3 rounded-full transition-all duration-300" 
+            asChild
+          >
+            <Link href="/reservations" onClick={closeMenu}>Book a Table</Link>
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
 
