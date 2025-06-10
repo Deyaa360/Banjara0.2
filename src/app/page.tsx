@@ -294,27 +294,29 @@ export default function Home() {
                     </div>
                   </button>
                 </Link>
-                <div className="backdrop-blur-sm rounded-full">
-                  <Link href="/menu">
+                <Link href="/menu">
                     <button
-                      className="group px-8 sm:px-10 py-4 text-base font-medium rounded-full transition-colors duration-300 border-2"
+                      className="group px-8 sm:px-10 py-4 text-base font-medium rounded-full transition-colors duration-300 border-2 backdrop-blur-sm isolate overflow-hidden"
                       style={{
                         backgroundColor: 'rgba(0, 0, 0, 0.3)',
                         color: '#e6c07a',
                         borderColor: 'rgba(230, 192, 122, 0.4)',
-                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
+                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+                        backdropFilter: 'blur(4px)'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
                         e.currentTarget.style.color = '#ffffff';
                         e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.6)';
                         e.currentTarget.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.3)';
+                        e.currentTarget.style.backdropFilter = 'blur(4px)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
                         e.currentTarget.style.color = '#e6c07a';
                         e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.4)';
                         e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
+                        e.currentTarget.style.backdropFilter = 'blur(4px)';
                       }}
                     >
                       <div className="flex items-center gap-3">
@@ -325,7 +327,6 @@ export default function Home() {
                       </div>
                     </button>
                   </Link>
-                </div>
               </div>
             </div>
           </div>
