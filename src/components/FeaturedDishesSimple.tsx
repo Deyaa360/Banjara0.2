@@ -84,7 +84,7 @@ const FeaturedDishesSimple = () => {
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
-  const goToSlide = (index) => {
+  const goToSlide = (index: number) => {
     if (isTransitioning || index === currentIndex) return;
     setIsTransitioning(true);
     setCurrentIndex(index);

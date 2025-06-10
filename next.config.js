@@ -16,9 +16,6 @@ const nextConfig = {
     serverComponentsExternalPackages: [],
     optimizeCss: false,
     scrollRestoration: false,
-    // Disable RSC data fetching for static exports
-    appDir: true,
-    serverActions: false,
   },
   // Increase the timeout for file operations
   onDemandEntries: {
