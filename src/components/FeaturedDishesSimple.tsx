@@ -297,7 +297,7 @@ const FeaturedDishesSimple = () => {
                     </div>
                     
                     {/* Indicators with subtle animations */}
-                    <div className="absolute top-5 sm:top-7 lg:top-10 right-5 sm:right-7 lg:right-10 flex flex-col gap-2 z-10">
+                    <div className="absolute top-8 sm:top-12 lg:top-16 right-8 sm:right-12 lg:right-16 flex flex-col gap-2 z-10">
                       {dish.isVegetarian && (
                         <div className="w-8 h-8 bg-stone-900/60 backdrop-blur-md border border-green-400/30 rounded-full flex items-center justify-center shadow-lg transform transition-transform duration-500 group-hover:scale-110">
                           <Leaf className="w-4 h-4 text-green-400/80" />
@@ -310,8 +310,8 @@ const FeaturedDishesSimple = () => {
                       )}
                     </div>
                     
-                    {/* Content with improved transitions and better mobile padding */}
-                    <div className={`absolute inset-0 flex flex-col justify-end p-5 sm:p-9 lg:p-10 z-10 ${isActive && !isTransitioning ? 'card-content-enter' : ''}`}>
+                    {/* Content with improved transitions and increased padding from borders */}
+                    <div className={`absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16 z-10 ${isActive && !isTransitioning ? 'card-content-enter' : ''}`}>
                       {/* Region with animation */}
                       {dish.region && (
                         <div className="flex items-center gap-2 mb-3 sm:mb-4 md:mb-5">

@@ -473,52 +473,52 @@ export default function Home() {
       </section>
 
       {/* Chef's Featured Creations Section */}
-      <section className="py-20 bg-stone-900 overflow-hidden relative">
+      <section className="py-20 bg-charcoal-900 overflow-hidden relative">
         {/* Enhanced ambient background elements with larger, more blurred circles */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Large amber circle in center-right */}
+          {/* Large charcoal circle in center-right - using charcoal-500 */}
           <div 
             className="absolute top-1/2 right-1/3 transform -translate-y-1/2" 
             style={{ 
               width: '800px', 
               height: '800px', 
-              background: 'radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 60%, transparent 100%)',
+              background: 'radial-gradient(circle, rgba(109, 109, 109, 0.25) 0%, rgba(109, 109, 109, 0.1) 60%, transparent 100%)',
               filter: 'blur(150px)',
               opacity: 0.9
             }}
           ></div>
           
-          {/* Extra large deep amber circle in bottom-left */}
+          {/* Extra large deep charcoal circle in bottom-left - using charcoal-700 */}
           <div 
             className="absolute -bottom-1/4 -left-1/4" 
             style={{ 
               width: '1200px', 
               height: '1200px', 
-              background: 'radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, rgba(180, 83, 9, 0.03) 70%, transparent 100%)',
+              background: 'radial-gradient(circle, rgba(79, 79, 79, 0.3) 0%, rgba(79, 79, 79, 0.12) 70%, transparent 100%)',
               filter: 'blur(180px)',
               opacity: 0.8
             }}
           ></div>
           
-          {/* Warm stone circle in top-left */}
+          {/* Light charcoal circle in top-left - using charcoal-400 */}
           <div 
             className="absolute -top-1/4 -left-1/4" 
             style={{ 
               width: '1000px', 
               height: '1000px', 
-              background: 'radial-gradient(circle, rgba(231, 229, 228, 0.05) 0%, rgba(214, 211, 209, 0.02) 60%, transparent 100%)',
+              background: 'radial-gradient(circle, rgba(136, 136, 136, 0.18) 0%, rgba(136, 136, 136, 0.08) 60%, transparent 100%)',
               filter: 'blur(160px)',
               opacity: 0.6
             }}
           ></div>
           
-          {/* Subtle highlight circle in top-right */}
+          {/* Subtle highlight circle in top-right - using charcoal-300 */}
           <div 
             className="absolute top-0 right-0" 
             style={{ 
               width: '900px', 
               height: '900px', 
-              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 60%, transparent 100%)',
+              background: 'radial-gradient(circle, rgba(176, 176, 176, 0.1) 0%, rgba(176, 176, 176, 0.04) 60%, transparent 100%)',
               filter: 'blur(170px)',
               opacity: 0.7
             }}
