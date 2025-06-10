@@ -351,15 +351,6 @@ const FeaturedDishesSimple = () => {
                           <span className="text-base text-stone-300 font-semibold tracking-wide">Spice Level:</span>
                           {renderSpiceLevel(dish.spiceLevel)}
                         </div>
-
-                        {isActive && (
-                          <Link href="/menu">
-                            <button className="menu-btn flex items-center gap-1 sm:gap-2 bg-stone-900/40 hover:bg-stone-800/60 backdrop-blur-md border border-amber-400/20 hover:border-amber-400/40 text-amber-200 hover:text-amber-100 px-3 py-2 sm:px-5 sm:py-3 lg:px-7 lg:py-4 rounded-full font-medium text-sm sm:text-base lg:text-lg transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl group">
-                              <span className="tracking-wide font-semibold">View Menu</span>
-                              <ArrowRight className="w-4 h-4 sm:w-4 sm:h-4 lg:w-5 lg:h-5 menu-btn-arrow" />
-                            </button>
-                          </Link>
-                        )}
                       </div>
                     </div>
                     
@@ -415,6 +406,16 @@ const FeaturedDishesSimple = () => {
             </button>
           );
         })}
+      </div>
+      
+      {/* Central View Menu Button */}
+      <div className="flex justify-center mt-12 sm:mt-16 md:mt-20">
+        <Link href="/menu">
+          <button className="menu-btn flex items-center gap-3 bg-stone-900/70 hover:bg-stone-800/90 backdrop-blur-md border-2 border-amber-400/30 hover:border-amber-400/60 text-amber-200 hover:text-amber-100 px-8 py-4 sm:px-10 sm:py-5 rounded-full font-medium text-lg sm:text-xl transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl group">
+            <span className="tracking-wide font-semibold">View Full Menu</span>
+            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 menu-btn-arrow" />
+          </button>
+        </Link>
       </div>
     </div>
   );
