@@ -11,8 +11,8 @@ const FeaturedDishesSimple = () => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   
   const featuredDishes = [
@@ -129,7 +129,7 @@ const FeaturedDishesSimple = () => {
     return dishes;
   };
 
-  const renderSpiceLevel = (level) => {
+  const renderSpiceLevel = (level: number) => {
     return (
       <div className="flex items-center gap-1">
         {[...Array(3)].map((_, i) => (
