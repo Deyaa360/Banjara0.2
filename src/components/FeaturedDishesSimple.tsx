@@ -145,14 +145,7 @@ const FeaturedDishesSimple = () => {
 
   return (
     <div className="relative py-2 sm:py-3 md:py-4 overflow-hidden">
-      {/* Ambient background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-400/10 to-amber-600/3 rounded-full" style={{ filter: 'blur(180px)' }}></div>
-        <div className="absolute bottom-1/3 left-1/4 w-96 h-96 bg-gradient-to-tl from-amber-300/10 to-transparent rounded-full" style={{ filter: 'blur(170px)' }}></div>
-        <div className="absolute top-1/4 left-1/3 w-80 h-80 bg-gradient-to-tr from-stone-200/4 to-transparent rounded-full" style={{ filter: 'blur(160px)' }}></div>
-        <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-gradient-to-bl from-stone-400/3 to-transparent rounded-full" style={{ filter: 'blur(150px)' }}></div>
-        <div className="absolute -bottom-32 left-1/2 transform -translate-x-1/2 w-full h-32 bg-gradient-to-t from-stone-900 to-transparent"></div>
-      </div>
+      {/* Background elements moved to parent section */}
 
       {/* Carousel container */}
       <div 
@@ -185,8 +178,8 @@ const FeaturedDishesSimple = () => {
         
         <style jsx global>{`
           @keyframes shineEffect {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% { transform: translateX(-120%); }
+            100% { transform: translateX(120%); }
           }
           
           .shine-effect {
@@ -202,8 +195,8 @@ const FeaturedDishesSimple = () => {
               transparent 100%
             );
             transform: translateX(-100%);
-            animation: shineEffect 0.5s ease-out forwards;
-            animation-delay: 0.2s;
+            animation: shineEffect 0.4s cubic-bezier(0.1, 0.7, 0.9, 1) forwards;
+            animation-delay: 0.1s;
             pointer-events: none;
             z-index: 20;
           }
@@ -277,8 +270,7 @@ const FeaturedDishesSimple = () => {
                   className={`w-[380px] sm:w-[520px] lg:w-[850px] h-[650px] sm:h-[850px] lg:h-[800px] rounded-2xl overflow-hidden`}
                   style={{
                     background: 'linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 100%)',
-                    boxShadow: '0 20px 70px 30px rgba(0, 0, 0, 0.3), 0 30px 80px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                    filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.25))',
+                    border: '1px solid rgba(255, 255, 255, 0.05)',
                     transformStyle: 'preserve-3d',
                   }}
                 >

@@ -474,6 +474,57 @@ export default function Home() {
 
       {/* Chef's Featured Creations Section */}
       <section className="py-20 bg-stone-900 overflow-hidden relative">
+        {/* Enhanced ambient background elements with larger, more blurred circles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Large amber circle in center-right */}
+          <div 
+            className="absolute top-1/2 right-1/3 transform -translate-y-1/2" 
+            style={{ 
+              width: '800px', 
+              height: '800px', 
+              background: 'radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 60%, transparent 100%)',
+              filter: 'blur(150px)',
+              opacity: 0.9
+            }}
+          ></div>
+          
+          {/* Extra large deep amber circle in bottom-left */}
+          <div 
+            className="absolute -bottom-1/4 -left-1/4" 
+            style={{ 
+              width: '1200px', 
+              height: '1200px', 
+              background: 'radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, rgba(180, 83, 9, 0.03) 70%, transparent 100%)',
+              filter: 'blur(180px)',
+              opacity: 0.8
+            }}
+          ></div>
+          
+          {/* Warm stone circle in top-left */}
+          <div 
+            className="absolute -top-1/4 -left-1/4" 
+            style={{ 
+              width: '1000px', 
+              height: '1000px', 
+              background: 'radial-gradient(circle, rgba(231, 229, 228, 0.05) 0%, rgba(214, 211, 209, 0.02) 60%, transparent 100%)',
+              filter: 'blur(160px)',
+              opacity: 0.6
+            }}
+          ></div>
+          
+          {/* Subtle highlight circle in top-right */}
+          <div 
+            className="absolute top-0 right-0" 
+            style={{ 
+              width: '900px', 
+              height: '900px', 
+              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 60%, transparent 100%)',
+              filter: 'blur(170px)',
+              opacity: 0.7
+            }}
+          ></div>
+        </div>
+        
         <div className="container mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
