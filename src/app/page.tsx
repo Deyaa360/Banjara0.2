@@ -25,21 +25,21 @@ export default function Home() {
       src: getImagePath('/banner1.png'),
       alt: 'Authentic Indian Cuisine - Banner 1',
       title: 'Where Heritage Meets Flavor',
-      subtitle: 'Embark on a culinary journey through the royal kitchens of India, where every spice tells a story and every dish is a masterpiece crafted with generations of wisdom.',
+      subtitle: 'Every spice tells a story, every dish a masterpiece crafted with generations of wisdom.',
       accent: 'Heritage'
     },
     {
       src: getImagePath('/banner2.png'), 
       alt: 'Traditional Banjara Dishes - Banner 2',
       title: 'Artistry in Every Bite',
-      subtitle: 'Our master chefs transform the finest ingredients into symphonies of taste, creating an extraordinary dining experience that awakens all your senses.',
+      subtitle: 'Our chefs transform fine ingredients into symphonies of taste that awaken your senses.',
       accent: 'Artistry'
     },
     {
       src: getImagePath('/banner3.png'),
       alt: 'Nomadic Culinary Experience - Banner 3',
       title: 'Moments Worth Savoring',
-      subtitle: 'Step into an atmosphere of warmth and elegance, where exceptional cuisine meets heartfelt hospitality to create memories that last a lifetime.',
+      subtitle: 'Exceptional cuisine meets heartfelt hospitality to create unforgettable memories.',
       accent: 'Moments'
     }
   ];
@@ -165,7 +165,7 @@ export default function Home() {
               {/* Title */}
               <h1
                 key={`title-${currentSlide}`}
-                className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight tracking-wide"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 md:mb-6 leading-tight tracking-wide"
                 style={{
                   color: '#d9c5a0',
                   textShadow: '0 4px 10px rgba(0,0,0,0.8)',
@@ -215,10 +215,10 @@ export default function Home() {
               {/* Enhanced Subtitle with Improved Typography */}
               <p
                 key={`subtitle-${currentSlide}`}
-                className="text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto mb-14 px-4"
+                className="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 px-4"
                 style={{
                   color: '#c4b597',
-                  lineHeight: '1.8',
+                  lineHeight: '1.5',
                   fontWeight: 400,
                   fontFamily: 'var(--font-body)',
                   opacity: transitionPhase === 'idle' ? 1 : 0,
