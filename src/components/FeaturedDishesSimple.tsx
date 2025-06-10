@@ -347,7 +347,6 @@ const FeaturedDishesSimple = () => {
 
                       {/* Bottom Row */}
                       <div className="flex items-center justify-between">
-                      >
                         <div className="flex items-center gap-3 transition-opacity duration-500 group-hover:opacity-80">
                           <span className="text-base text-stone-300 font-semibold tracking-wide">Spice Level:</span>
                           {renderSpiceLevel(dish.spiceLevel)}
