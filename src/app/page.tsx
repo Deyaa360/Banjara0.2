@@ -303,7 +303,8 @@ export default function Home() {
                         borderColor: 'rgba(230, 192, 122, 0.4)',
                         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
                         backdropFilter: 'blur(4px)',
-                        WebkitBackdropFilter: 'blur(4px)',
+                        // Type-safe way to define vendor prefix
+                        WebkitBackdropFilter: 'blur(4px)' as any,
                         transition: 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s'
                       }}
                       onMouseEnter={(e) => {
@@ -312,7 +313,8 @@ export default function Home() {
                         e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.6)';
                         e.currentTarget.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.3)';
                         e.currentTarget.style.backdropFilter = 'blur(4px)';
-                        e.currentTarget.style.WebkitBackdropFilter = 'blur(4px)';
+                        // Use type assertion to fix TypeScript error with vendor prefix
+                        (e.currentTarget.style as any)['-webkit-backdrop-filter'] = 'blur(4px)';
                         e.currentTarget.style.transition = 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s';
                       }}
                       onMouseLeave={(e) => {
@@ -321,7 +323,8 @@ export default function Home() {
                         e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.4)';
                         e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
                         e.currentTarget.style.backdropFilter = 'blur(4px)';
-                        e.currentTarget.style.WebkitBackdropFilter = 'blur(4px)';
+                        // Use type assertion to fix TypeScript error with vendor prefix
+                        (e.currentTarget.style as any)['-webkit-backdrop-filter'] = 'blur(4px)';
                         e.currentTarget.style.transition = 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s';
                       }}
                     >
