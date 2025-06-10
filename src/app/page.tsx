@@ -218,7 +218,7 @@ export default function Home() {
                 className="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 px-4"
                 style={{
                   color: '#c4b597',
-                  lineHeight: '1.5',
+                  lineHeight: '1.8',
                   fontWeight: 400,
                   fontFamily: 'var(--font-body)',
                   opacity: transitionPhase === 'idle' ? 1 : 0,
