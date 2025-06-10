@@ -16,6 +16,9 @@ const nextConfig = {
     serverComponentsExternalPackages: [],
     optimizeCss: false,
     scrollRestoration: false,
+    // Disable RSC data fetching for static exports
+    appDir: true,
+    serverActions: false,
   },
   // Increase the timeout for file operations
   onDemandEntries: {
@@ -23,10 +26,21 @@ const nextConfig = {
     pagesBufferLength: 5,
   },
   // Disable source maps in development to reduce file operations
-  webpack: (config, { dev }) => {
+  webpack: (config, { dev, isServer }) => {
     if (dev) {
       config.devtool = 'eval';
     }
+    
+    // Handle "browser is not defined" errors
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    
     return config;
   },
 };
