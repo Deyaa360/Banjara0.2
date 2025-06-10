@@ -16,188 +16,367 @@ import {
 } from "@/components/ui/carousel"
 
 export default function Home() {
-  const [currentBanner, setCurrentBanner] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [targetSlideIndex, setTargetSlideIndex] = useState(0);
+  const [transitionPhase, setTransitionPhase] = useState('idle'); // 'idle', 'fadeOut', 'fadeIn'
   
   const bannerContent = [
     {
       src: getImagePath('/banner1.png'),
       alt: 'Authentic Indian Cuisine - Banner 1',
-      title: 'A Journey Through',
-      subtitle: 'Authentic Indian Flavors',
-      description: 'Experience the rich tapestry of Indian cuisine, where every dish tells a story of tradition, passion, and culinary excellence.'
+      title: 'Where Heritage Meets Flavor',
+      subtitle: 'Embark on a culinary journey through the royal kitchens of India, where every spice tells a story and every dish is a masterpiece crafted with generations of wisdom.',
+      accent: 'Heritage'
     },
     {
       src: getImagePath('/banner2.png'), 
       alt: 'Traditional Banjara Dishes - Banner 2',
-      title: 'Where Tradition',
-      subtitle: 'Meets Innovation',
-      description: 'Discover a modern interpretation of age-old recipes, crafted with precision and served in an atmosphere of timeless elegance.'
+      title: 'Artistry in Every Bite',
+      subtitle: 'Our master chefs transform the finest ingredients into symphonies of taste, creating an extraordinary dining experience that awakens all your senses.',
+      accent: 'Artistry'
     },
     {
       src: getImagePath('/banner3.png'),
       alt: 'Nomadic Culinary Experience - Banner 3',
-      title: 'An Experience',
-      subtitle: 'Beyond Dining',
-      description: 'Immerse yourself in a sensory journey where exceptional cuisine meets impeccable service in a setting of refined sophistication.'
+      title: 'Moments Worth Savoring',
+      subtitle: 'Step into an atmosphere of warmth and elegance, where exceptional cuisine meets heartfelt hospitality to create memories that last a lifetime.',
+      accent: 'Moments'
     }
   ];
 
+  // Auto-advance slides with unified rhythm
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % bannerContent.length);
-    }, 5000);
+      if (transitionPhase === 'idle') {
+        const target = (currentSlide + 1) % bannerContent.length;
+        initiateTransition(target);
+      }
+    }, 6000); // Elegant 6 second timing
     return () => clearInterval(timer);
-  }, []);
+  }, [currentSlide, transitionPhase, bannerContent.length]);
+
+  // Simple transition orchestrator
+  const initiateTransition = (targetSlide: number) => {
+    if (transitionPhase === 'idle' && targetSlide !== currentSlide) {
+      setTargetSlideIndex(targetSlide);
+
+      // Phase 1: Quick fade out (0.4s)
+      setTransitionPhase('fadeOut');
+
+      setTimeout(() => {
+        // Phase 2: Switch content and fade in (0.6s)
+        setCurrentSlide(targetSlide);
+        setTransitionPhase('fadeIn');
+
+        setTimeout(() => {
+          // Phase 3: Return to idle
+          setTransitionPhase('idle');
+        }, 600);
+      }, 400);
+    }
+  };
+
+  const nextSlide = () => {
+    const target = (currentSlide + 1) % bannerContent.length;
+    initiateTransition(target);
+  };
+
+  const prevSlide = () => {
+    const target = (currentSlide - 1 + bannerContent.length) % bannerContent.length;
+    initiateTransition(target);
+  };
 
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-charcoal-900">
-        {/* Background Image Carousel */}
-        <div className="absolute inset-0">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentBanner}
-              initial={{ opacity: 0, scale: 1.02 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.02 }}
-              transition={{ duration: 0.7, ease: "easeInOut" }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={bannerContent[currentBanner].src}
-                alt={bannerContent[currentBanner].alt}
-                fill
-                className="object-cover"
-                priority={currentBanner === 0}
-                quality={95}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-900/90 via-charcoal-900/85 to-charcoal-900/90" />
-        
-        {/* Additional Gradient for Bottom Fade */}
-        <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-charcoal-900 to-transparent" />
-        
-        {/* Floating Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-warm-400/30 rounded-full animate-float" style={{ animationDelay: '0s' }} />
-          <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-amber-400/40 rounded-full animate-float" style={{ animationDelay: '2s' }} />
-          <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-warm-300/20 rounded-full animate-float" style={{ animationDelay: '4s' }} />
-        </div>
-        
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto text-center px-6">
-          <div className="max-w-5xl mx-auto">
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-3 mb-8"
-            >
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-warm-400" />
-              <span className="text-warm-400 text-sm font-medium tracking-[0.3em] uppercase font-body">
-                Welcome to Banjara
-              </span>
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-warm-400" />
-            </motion.div>
-            
-            {/* Main Heading */}
-            <motion.h1
-              key={`title-${currentBanner}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="font-display text-display-xl text-white mb-8 leading-tight"
-            >
-              {bannerContent[currentBanner].title}
-              <br />
-              <span className="text-gradient-gold">{bannerContent[currentBanner].subtitle}</span>
-            </motion.h1>
-            
-            {/* Subtitle */}
-            <motion.p
-              key={`description-${currentBanner}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-readable-lg text-stone-200 mb-12 font-body max-w-3xl mx-auto"
-            >
-              {bannerContent[currentBanner].description}
-            </motion.p>
+      {/* Hero Banner Section */}
+      <section className="relative h-screen overflow-hidden">
+        {/* Smooth Crossfade Images with Continuous Zoom */}
+        <AnimatePresence mode="wait">
+          {bannerContent.map((image, index) => {
+            const isActive = index === currentSlide;
+            const isNext = index === targetSlideIndex && transitionPhase !== 'idle';
 
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
-              className="flex flex-col sm:flex-row justify-center gap-6"
-            >
-              <Button
-                variant="default"
-                size="lg"
-                className="text-lg px-10 py-7 hover:scale-105 transition-all duration-300 hover:shadow-xl"
-                asChild
+            return (
+              <motion.div
+                key={`image-${index}`}
+                initial={{ opacity: 0, scale: 1 }}
+                animate={{
+                  opacity: isActive ? 1 : 0,
+                  scale: isActive ? 1.15 : 1,
+                  transition: {
+                    opacity: { 
+                      duration: isActive ? 0.6 : 0.4,
+                      ease: "easeInOut"
+                    },
+                    scale: {
+                      duration: isActive ? 6 : 0.4,
+                      ease: isActive ? "linear" : "easeOut"
+                    }
+                  }
+                }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${image.src})`,
+                  zIndex: isActive ? 2 : 0
+                }}
+              />
+            );
+          })}
+        </AnimatePresence>
+
+        {/* Much Darker Heritage Overlay */}
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background: `linear-gradient(135deg,
+              rgba(28, 28, 28, 0.85) 0%,
+              rgba(28, 28, 28, 0.75) 25%,
+              rgba(196, 181, 151, 0.1) 50%,
+              rgba(28, 28, 28, 0.75) 75%,
+              rgba(28, 28, 28, 0.85) 100%)`
+          }}
+        ></div>
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background: `linear-gradient(to top,
+              rgba(28, 28, 28, 0.85) 0%,
+              rgba(28, 28, 28, 0.75) 50%,
+              rgba(28, 28, 28, 0.85) 100%)`
+          }}
+        ></div>
+        {/* Heavy Edge Darkening */}
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background: `radial-gradient(ellipse at center,
+              transparent 25%,
+              rgba(28, 28, 28, 0.3) 60%,
+              rgba(28, 28, 28, 0.6) 90%,
+              rgba(28, 28, 28, 0.8) 100%)`
+          }}
+        ></div>
+
+        {/* Content with Beautiful Text Effects */}
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="container text-center text-white">
+            <div className="max-w-5xl mx-auto">
+              {/* Title */}
+              <h1
+                key={`title-${currentSlide}`}
+                className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight tracking-wide"
+                style={{
+                  color: '#d9c5a0',
+                  textShadow: '0 4px 10px rgba(0,0,0,0.8)',
+                  fontFamily: 'var(--font-display)',
+                  transform: transitionPhase === 'fadeOut' ? 'translateY(-20px)' :
+                            transitionPhase === 'fadeIn' ? 'translateY(30px)' :
+                            'translateY(0px)',
+                  opacity: transitionPhase === 'idle' ? 1 : 0,
+                  transition: transitionPhase === 'fadeOut'
+                    ? 'all 0.4s cubic-bezier(0.4, 0, 0.6, 1)'
+                    : 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                  letterSpacing: '0.05em',
+                  wordSpacing: '0.2em'
+                }}
               >
-                <Link href="/reservations">Reserve a Table</Link>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-lg px-10 py-7 text-white border-white hover:bg-white/10 hover:scale-105 transition-all duration-300 hover:shadow-xl"
-                asChild
+                {bannerContent[currentSlide].title.split(' ').map((word, index) => (
+                  <span
+                    key={`${currentSlide}-${index}`}
+                    className="inline-block"
+                    style={{
+                      transform: transitionPhase === 'fadeOut' ? 'translateY(-15px)' :
+                                transitionPhase === 'fadeIn' ? 'translateY(20px)' :
+                                'translateY(0px)',
+                      opacity: transitionPhase === 'idle' ? 1 : 0,
+                      transition: transitionPhase === 'fadeOut'
+                        ? `all 0.4s cubic-bezier(0.4, 0, 0.6, 1) ${index * 0.05}s`
+                        : `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${0.3 + (index * 0.1)}s`,
+                      marginRight: '0.2em'
+                    }}
+                  >
+                    {word === bannerContent[currentSlide].accent ? (
+                      <span
+                        style={{
+                          color: '#e6c07a',
+                          textShadow: '0 4px 15px rgba(0,0,0,0.9), 0 0 20px rgba(230, 192, 122, 0.3)'
+                        }}
+                      >
+                        {word}
+                      </span>
+                    ) : (
+                      <span>{word}</span>
+                    )}
+                  </span>
+                ))}
+              </h1>
+
+              {/* Enhanced Subtitle with Improved Typography */}
+              <p
+                key={`subtitle-${currentSlide}`}
+                className="text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto mb-14 px-4"
+                style={{
+                  color: '#c4b597',
+                  lineHeight: '1.8',
+                  fontWeight: 400,
+                  fontFamily: 'var(--font-body)',
+                  opacity: transitionPhase === 'idle' ? 1 : 0,
+                  transform: transitionPhase === 'fadeOut' ? 'translateY(-10px) scale(0.98)' :
+                            transitionPhase === 'fadeIn' ? 'translateY(20px) scale(0.98)' :
+                            'translateY(0) scale(1)',
+                  transition: transitionPhase === 'fadeOut'
+                    ? 'all 0.4s cubic-bezier(0.4, 0, 0.6, 1) 0.05s'
+                    : 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.65s',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.4)',
+                }}
               >
-                <Link href="/menu">View Menu</Link>
-              </Button>
-            </motion.div>
+                {bannerContent[currentSlide].subtitle.split(' ').map((word, index) => (
+                  <span
+                    key={`subtitle-word-${currentSlide}-${index}`}
+                    className="inline-block"
+                    style={{
+                      opacity: transitionPhase === 'idle' ? 1 : 0,
+                      transform: transitionPhase === 'fadeOut' ? 'translateY(-5px)' :
+                                transitionPhase === 'fadeIn' ? 'translateY(10px)' :
+                                'translateY(0)',
+                      transition: transitionPhase === 'fadeOut'
+                        ? `all 0.3s cubic-bezier(0.4, 0, 0.6, 1) ${0.05 + (index * 0.01)}s`
+                        : `all 0.5s cubic-bezier(0.4, 0, 0.2, 1) ${0.7 + (index * 0.015)}s`,
+                      marginRight: '0.25em'
+                    }}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </p>
+
+              {/* CTA Buttons - Exact Styling from Original */}
+              <div 
+                className="flex flex-col sm:flex-row justify-center gap-6"
+                style={{
+                  opacity: transitionPhase === 'idle' ? 1 : 0,
+                  transform: transitionPhase === 'fadeOut' ? 'translateY(-5px)' :
+                            transitionPhase === 'fadeIn' ? 'translateY(15px)' :
+                            'translateY(0)',
+                  transition: transitionPhase === 'fadeOut'
+                    ? 'all 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0.1s'
+                    : 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.8s',
+                }}
+              >
+                <Link href="/reservations">
+                  <button
+                    className="group px-8 sm:px-10 py-3.5 text-base font-medium rounded-full transition-colors duration-300 border-2 shadow-lg"
+                    style={{
+                      backgroundColor: '#795939',
+                      color: '#e6c07a',
+                      borderColor: '#8a6642',
+                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#e6c07a';
+                      e.currentTarget.style.color = '#4b371f';
+                      e.currentTarget.style.borderColor = '#e6c07a';
+                      e.currentTarget.style.boxShadow = '0 6px 15px rgba(230, 192, 122, 0.3)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#795939';
+                      e.currentTarget.style.color = '#e6c07a';
+                      e.currentTarget.style.borderColor = '#8a6642';
+                      e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="tracking-wide">Reserve a Table</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </div>
+                  </button>
+                </Link>
+                <div className="backdrop-blur-sm rounded-full">
+                  <Link href="/menu">
+                    <button
+                      className="group px-8 sm:px-10 py-4 text-base font-medium rounded-full transition-colors duration-300 border-2"
+                      style={{
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        color: '#e6c07a',
+                        borderColor: 'rgba(230, 192, 122, 0.4)',
+                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                        e.currentTarget.style.color = '#ffffff';
+                        e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.6)';
+                        e.currentTarget.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.3)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+                        e.currentTarget.style.color = '#e6c07a';
+                        e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.4)';
+                        e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="tracking-wide">View Menu</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </div>
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - Hidden Until Hover, Full Height Clickable Areas */}
         <button
-          onClick={() => setCurrentBanner((prev) => (prev - 1 + bannerContent.length) % bannerContent.length)}
-          className="absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white/80 hover:text-white transition-all duration-300 group"
+          onClick={prevSlide}
+          className="absolute left-0 top-0 bottom-0 w-[15%] flex items-center justify-start pl-4 sm:pl-8 z-20 opacity-0 hover:opacity-100 transition-opacity duration-300 group"
           aria-label="Previous slide"
         >
-          <div className="w-8 h-8 border-2 border-current rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-black/20 backdrop-blur-sm border border-white/10 group-hover:bg-black/30 group-hover:border-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </div>
         </button>
 
         <button
-          onClick={() => setCurrentBanner((prev) => (prev + 1) % bannerContent.length)}
-          className="absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white/80 hover:text-white transition-all duration-300 group"
+          onClick={nextSlide}
+          className="absolute right-0 top-0 bottom-0 w-[15%] flex items-center justify-end pr-4 sm:pr-8 z-20 opacity-0 hover:opacity-100 transition-opacity duration-300 group"
           aria-label="Next slide"
         >
-          <div className="w-8 h-8 border-2 border-current rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-black/20 backdrop-blur-sm border border-white/10 group-hover:bg-black/30 group-hover:border-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </div>
         </button>
 
-        {/* Banner Navigation */}
-        <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2">
-          <div className="flex gap-4">
+        {/* Banner Navigation - Exact Styling from Original */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="flex gap-3">
             {bannerContent.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentBanner(index)}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                  currentBanner === index
-                    ? "bg-white scale-125"
-                    : "bg-white/30 hover:bg-white/50"
-                }`}
+                onClick={() => initiateTransition(index)}
+                className={`transition-all duration-300 focus:outline-none`}
                 aria-label={`Go to slide ${index + 1}`}
-              />
+              >
+                <div 
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentSlide === index
+                      ? "bg-amber-400 scale-110"
+                      : "bg-white/30 hover:bg-white/50"
+                  }`}
+                  style={{
+                    boxShadow: currentSlide === index ? '0 0 8px rgba(230, 192, 122, 0.6)' : 'none'
+                  }}
+                />
+              </button>
             ))}
           </div>
         </div>
