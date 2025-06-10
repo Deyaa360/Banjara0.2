@@ -135,8 +135,8 @@ const FeaturedDishesSimple = () => {
         {[...Array(3)].map((_, i) => (
           <Flame 
             key={i} 
-            size={18} 
-            className={`${i < level ? 'text-amber-400 fill-current' : 'text-stone-400/50'}`} 
+            size={16} 
+            className={`${i < level ? 'text-amber-400 fill-current' : 'text-stone-400/50'} w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-[18px] md:h-[18px]`} 
           />
         ))}
       </div>
@@ -318,32 +318,32 @@ const FeaturedDishesSimple = () => {
                       )}
                     </div>
                     
-                    {/* Content with improved transitions */}
-                    <div className={`absolute inset-0 flex flex-col justify-end p-7 sm:p-9 lg:p-10 z-10 ${isActive && !isTransitioning ? 'card-content-enter' : ''}`}>
+                    {/* Content with improved transitions and better mobile padding */}
+                    <div className={`absolute inset-0 flex flex-col justify-end p-5 sm:p-9 lg:p-10 z-10 ${isActive && !isTransitioning ? 'card-content-enter' : ''}`}>
                       {/* Region with animation */}
                       {dish.region && (
-                        <div className="flex items-center gap-2 mb-4 sm:mb-5 transform transition-transform duration-500 group-hover:translate-x-1">
-                          <MapPin className="w-4 h-4 text-amber-400" />
-                          <span className="text-amber-300 text-sm font-semibold uppercase tracking-wider">
+                        <div className="flex items-center gap-2 mb-3 sm:mb-4 md:mb-5">
+                          <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
+                          <span className="text-amber-300 text-xs sm:text-sm font-semibold uppercase tracking-wider">
                             {dish.region}
                           </span>
                         </div>
                       )}
 
-                      {/* Title with animation */}
-                      <h3 className="font-bold text-3xl sm:text-4xl lg:text-6xl text-white mb-2 sm:mb-3 lg:mb-4 leading-tight drop-shadow-lg transform transition-all duration-500 group-hover:text-amber-200">
+                      {/* Title */}
+                      <h3 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-2 sm:mb-3 lg:mb-4 leading-tight drop-shadow-lg">
                         {dish.name}
                       </h3>
 
                       {/* Description */}
-                      <p className="text-stone-200 text-base sm:text-lg lg:text-xl leading-relaxed mb-4 sm:mb-5 lg:mb-5 line-clamp-3 lg:line-clamp-4 drop-shadow-md">
+                      <p className="text-stone-200 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mb-3 sm:mb-4 lg:mb-5 line-clamp-3 lg:line-clamp-4 drop-shadow-md">
                         {dish.description}
                       </p>
 
                       {/* Bottom Row */}
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <span className="text-base text-stone-300 font-semibold tracking-wide">Spice Level:</span>
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <span className="text-xs sm:text-sm md:text-base text-stone-300 font-semibold tracking-wide">Spice Level:</span>
                           {renderSpiceLevel(dish.spiceLevel)}
                         </div>
                       </div>
