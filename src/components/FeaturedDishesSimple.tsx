@@ -208,11 +208,7 @@ const FeaturedDishesSimple = () => {
             z-index: 20;
           }
           
-          .card-glow-target:hover {
-            box-shadow: 0 20px 70px 30px rgba(230, 192, 122, 0.25), 0 30px 90px 30px rgba(230, 192, 122, 0.15);
-            filter: drop-shadow(0 30px 60px rgba(230, 192, 122, 0.2));
-            transition: all 0.7s ease;
-          }
+          /* Card glow hover effect removed */
           
           .menu-btn-arrow {
             transition: transform 0.3s ease;
@@ -278,8 +274,7 @@ const FeaturedDishesSimple = () => {
                 }}
               >
                 <div 
-                  className={`w-[380px] sm:w-[520px] lg:w-[850px] h-[650px] sm:h-[850px] lg:h-[800px] rounded-2xl overflow-hidden group
-                    ${isActive ? 'card-glow-target' : ''} transition-all duration-700`}
+                  className={`w-[380px] sm:w-[520px] lg:w-[850px] h-[650px] sm:h-[850px] lg:h-[800px] rounded-2xl overflow-hidden`}
                   style={{
                     background: 'linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.1) 100%)',
                     boxShadow: '0 20px 70px 30px rgba(0, 0, 0, 0.3), 0 30px 80px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
@@ -287,8 +282,8 @@ const FeaturedDishesSimple = () => {
                     transformStyle: 'preserve-3d',
                   }}
                 >
-                  {/* Image with hover effect */}
-                  <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
+                  {/* Image without hover effect */}
+                  <div className="relative w-full h-full">
                     <Image 
                       src={dish.image}
                       alt={dish.name}
@@ -347,16 +342,14 @@ const FeaturedDishesSimple = () => {
 
                       {/* Bottom Row */}
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3 transition-opacity duration-500 group-hover:opacity-80">
+                        <div className="flex items-center gap-3">
                           <span className="text-base text-stone-300 font-semibold tracking-wide">Spice Level:</span>
                           {renderSpiceLevel(dish.spiceLevel)}
                         </div>
                       </div>
                     </div>
                     
-                    {/* Animated Decorative Corners */}
-                    <div className="absolute top-5 sm:top-7 lg:top-10 right-5 sm:right-7 lg:right-10 w-24 sm:w-28 lg:w-36 h-24 sm:h-28 lg:h-36 border-t-2 border-r-2 border-amber-400/30 rounded-tr-[25px] sm:rounded-tr-[30px] lg:rounded-tr-[35px] transition-all duration-700 group-hover:border-amber-400/50 group-hover:w-28 sm:group-hover:w-32 lg:group-hover:w-40 group-hover:h-28 sm:group-hover:h-32 lg:group-hover:h-40" />
-                    <div className="absolute bottom-5 sm:bottom-7 lg:bottom-10 left-5 sm:left-7 lg:left-10 w-24 sm:w-28 lg:w-36 h-24 sm:h-28 lg:h-36 border-b-2 border-l-2 border-amber-400/30 rounded-bl-[25px] sm:rounded-bl-[30px] lg:rounded-bl-[35px] transition-all duration-700 group-hover:border-amber-400/50 group-hover:w-28 sm:group-hover:w-32 lg:group-hover:w-40 group-hover:h-28 sm:group-hover:h-32 lg:group-hover:h-40" />
+                    {/* Decorative corners removed */}
                   </div>
                 </div>
               </div>
