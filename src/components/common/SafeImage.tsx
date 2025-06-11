@@ -6,7 +6,6 @@ import Image, { ImageProps } from 'next/image';
 interface SafeImageProps extends Omit<ImageProps, 'onError'> {
   fallbackSrc?: string;
   priority?: boolean;
-  lazyBoundary?: string;
   minHeight?: string | number;
   aspectRatio?: string;
   blurDataURL?: string;
@@ -25,7 +24,6 @@ const SafeImage: React.FC<SafeImageProps> = ({
   style = {},
   fallbackSrc = '/placeholder-image.jpg',
   priority = false,
-  lazyBoundary = '200px',
   minHeight = '200px',
   aspectRatio,
   blurDataURL,
@@ -105,7 +103,6 @@ const SafeImage: React.FC<SafeImageProps> = ({
         sizes={sizes}
         placeholder={placeholder}
         blurDataURL={blurDataURL}
-        lazyBoundary={lazyBoundary}
         className={`${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500 ${fill ? 'object-cover' : ''} rounded-inherit`}
         onError={handleError}
         onLoad={handleLoad}

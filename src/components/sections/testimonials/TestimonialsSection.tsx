@@ -25,16 +25,11 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   subtitle = "Hear from our valued patrons about their dining experiences",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-  
-  const { 
-    currentIndex, 
-    isTransitioning, 
-    nextSlide, 
-    prevSlide, 
+  const {
+    currentIndex,
+    isTransitioning,
+    nextSlide,
+    prevSlide,
     goToSlide,
     setIsPaused,
   } = useCarousel({
@@ -42,6 +37,28 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
     autoPlay: true,
     interval: 6000,
   });
+
+  // Height animation fix
+  const [containerHeight, setContainerHeight] = useState<number | undefined>(undefined);
+  const testimonialRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+  
+  useEffect(() => {
+    if (testimonialRef.current) {
+      setContainerHeight(testimonialRef.current.offsetHeight);
+    }
+    // Recalculate height on window resize
+    const handleResize = () => {
+      if (testimonialRef.current) {
+        setContainerHeight(testimonialRef.current.offsetHeight);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [currentIndex]);
 
   const renderStars = (rating: number) => {
     return (
@@ -126,7 +143,12 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Testimonial Carousel */}
-          <div className="overflow-hidden rounded-3xl">
+          <motion.div
+            animate={{ height: containerHeight || 'auto' }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+            className="overflow-hidden rounded-3xl"
+            style={{ position: 'relative' }}
+          >
             <AnimatePresence mode="sync">
               <motion.div 
                 key={`testimonial-${currentIndex}`}
@@ -135,6 +157,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
                 className="relative"
+                ref={testimonialRef}
               >
                 {testimonials.map((testimonial, index) => (
                   <div 
@@ -219,7 +242,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                 ))}
               </motion.div>
             </AnimatePresence>
-          </div>
+          </motion.div>
           
           {/* Navigation Buttons */}
           <button
