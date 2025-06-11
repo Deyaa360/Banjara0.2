@@ -26,14 +26,12 @@ export const LazySection: React.FC<LazySectionProps> = ({
   once = true,
   placeholder,
   delay = 0,
-  rootMargin = "200px 0px",
   id,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { 
     once, 
-    amount: threshold,
-    margin: rootMargin
+    amount: threshold
   });
   
   // If delay is provided, we'll use a timeout to render the children

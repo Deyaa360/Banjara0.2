@@ -74,13 +74,21 @@ export function useCarousel({
   }, [autoPlay, isPaused, isTransitioning, interval, nextSlide]);
 
   // Touch event handlers
-  const handleTouchStart = (e: React.TouchEvent | TouchEvent) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement> | TouchEvent) => {
     setTouchEnd(null);
-    setTouchStart('touches' in e ? e.touches[0].clientX : e.clientX);
+    if ('touches' in e && e.touches && e.touches.length > 0) {
+      setTouchStart(e.touches[0].clientX);
+    } else if ('clientX' in e && typeof e.clientX === 'number') {
+      setTouchStart(e.clientX);
+    }
   };
   
-  const handleTouchMove = (e: React.TouchEvent | TouchEvent) => {
-    setTouchEnd('touches' in e ? e.touches[0].clientX : e.clientX);
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement> | TouchEvent) => {
+    if ('touches' in e && e.touches && e.touches.length > 0) {
+      setTouchEnd(e.touches[0].clientX);
+    } else if ('clientX' in e && typeof e.clientX === 'number') {
+      setTouchEnd(e.clientX);
+    }
   };
   
   const handleTouchEnd = () => {
