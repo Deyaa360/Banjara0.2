@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Award, Leaf, Users, Clock } from 'lucide-react';
 import { getImagePath } from "@/lib/imagePath";
+import { SafeImage } from '@/components/common';
 
 const AboutSection = () => {
   const features = [
@@ -114,10 +115,11 @@ const AboutSection = () => {
             className="relative"
           >
             <div className="relative h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl">
-              <Image 
+              <SafeImage 
                 src={getImagePath("/banner2.png")} 
                 alt="Traditional Banjara Dishes and Heritage" 
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
                 quality={95}
               />

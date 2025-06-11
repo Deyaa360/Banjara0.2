@@ -3,6 +3,7 @@ import { Inter, Cormorant_Garamond, Playfair_Display } from 'next/font/google';
 import '@/styles/globals.css';
 import Header from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -37,6 +38,7 @@ export const metadata: Metadata = {
   keywords: ['Indian restaurant', 'heritage cuisine', 'fine dining', 'authentic Indian food', 'traditional recipes'],
   authors: [{ name: 'Banjara Restaurant' }],
   creator: 'Banjara Restaurant',
+  metadataBase: new URL('http://localhost:3000'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -69,6 +71,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+        <Script src="/browser-polyfill.js" strategy="beforeInteractive" id="browser-polyfill" />
       </head>
       <body className="min-h-screen bg-white font-sans antialiased overflow-x-hidden">
         <div className="relative flex min-h-screen flex-col w-full overflow-hidden">
@@ -86,6 +89,37 @@ export default function RootLayout({
                 window.scrollTo(0, 0);
               }
             });
+
+            // Handle Google Maps errors
+            window.addEventListener('error', function(event) {
+              if (
+                event.message && (
+                  event.message.includes('browser is not defined') ||
+                  event.message.includes('Google Maps') ||
+                  (event.filename && event.filename.includes('maps.googleapis.com'))
+                )
+              ) {
+                event.preventDefault();
+                return true;
+              }
+              return false;
+            }, true);
+
+            // Override console.error to suppress Google Maps errors
+            const originalConsoleError = console.error;
+            console.error = function() {
+              const args = Array.from(arguments);
+              const errorString = args.join(' ');
+              if (
+                errorString.includes('Google Maps JavaScript API') ||
+                errorString.includes('browser is not defined') ||
+                errorString.includes('maps.googleapis.com') ||
+                errorString.includes('Google Maps API')
+              ) {
+                return;
+              }
+              return originalConsoleError.apply(console, args);
+            };
           `
         }} />
       </body>

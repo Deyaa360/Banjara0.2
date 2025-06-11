@@ -5,11 +5,11 @@ const repoName = 'Banjara0.2'; // Your repo name
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'export',
+  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
   basePath: isGithubPages ? `/${repoName}` : '',
   assetPrefix: isGithubPages ? `/${repoName}/` : '',
   images: {
-    unoptimized: true,
+    unoptimized: process.env.NODE_ENV === 'production',
   },
   experimental: {
     // Disable features that might be causing issues
@@ -24,10 +24,6 @@ const nextConfig = {
   },
   // Disable source maps in development to reduce file operations
   webpack: (config, { dev, isServer }) => {
-    if (dev) {
-      config.devtool = 'eval';
-    }
-    
     // Handle "browser is not defined" errors
     if (!isServer) {
       config.resolve.fallback = {
@@ -35,6 +31,14 @@ const nextConfig = {
         fs: false,
         net: false,
         tls: false,
+        browser: false,
+        path: false,
+        os: false,
+        crypto: false,
+        stream: false,
+        http: false,
+        https: false,
+        zlib: false,
       };
     }
     

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { SafeImage } from '@/components/common';
 
 const banners = [
   {
@@ -38,10 +39,11 @@ export function BannerCarousel() {
             index === currentIndex ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <Image
+          <SafeImage
             src={banner.src}
             alt={banner.alt}
             fill
+            sizes="100vw"
             className="object-cover"
             priority={index === 0}
           />

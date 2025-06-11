@@ -40,7 +40,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image Carousel */}
       <div className="absolute inset-0">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.div
             key={currentImageIndex}
             initial={{ opacity: 0, scale: 1.1 }}
@@ -53,6 +53,7 @@ const HeroSection = () => {
               src={bannerImages[currentImageIndex].src}
               alt={bannerImages[currentImageIndex].alt}
               fill
+              sizes="100vw"
               className="object-cover"
               priority={currentImageIndex === 0}
               quality={95}

@@ -122,6 +122,7 @@ const Header = () => {
                 src={getImagePath("/LOGO.png")} 
                 alt="Banjara Logo" 
                 fill 
+                sizes="(max-width: 768px) 80px, 80px"
                 className="object-contain" 
                 priority 
               />
@@ -194,6 +195,7 @@ const Header = () => {
               src={getImagePath("/LOGO.png")} 
               alt="Banjara Logo" 
               fill 
+              sizes="(max-width: 768px) 64px, 64px"
               className="object-contain" 
               priority 
             />

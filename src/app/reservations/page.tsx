@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ReservationForm from '@/components/reservation/ReservationForm';
 import { getImagePath } from '@/lib/imagePath';
+import { SafeImage } from '@/components/common';
 
 export default function ReservationsPage() {
   return (
@@ -138,10 +139,11 @@ export default function ReservationsPage() {
                     Restaurant Location
                   </h3>
                   <div className="relative h-64 rounded-2xl overflow-hidden mb-4">
-                    <Image
+                    <SafeImage
                       src={getImagePath("/banner2.png")}
                       alt="Restaurant Location"
                       fill
+                      sizes="(max-width: 768px) 100vw, 400px"
                       className="object-cover"
                     />
                   </div>

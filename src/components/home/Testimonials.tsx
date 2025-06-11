@@ -82,7 +82,7 @@ const Testimonials = () => {
         {/* Testimonials Carousel */}
         <div className="max-w-5xl mx-auto">
           <div className="relative min-h-[500px] lg:min-h-[400px]">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               <motion.div
                 key={testimonials[current].id}
                 initial={{ opacity: 0, scale: 0.95 }}
