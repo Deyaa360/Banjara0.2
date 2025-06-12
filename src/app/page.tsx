@@ -1,26 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import React from 'react';
 import { getImagePath } from "@/lib/imagePath";
-import FeaturedDishesSimple from "@/components/FeaturedDishesSimple";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
+import { BannerHero } from "@/components/sections/hero";
+import { FeaturedDishes } from "@/components/sections/featured";
+import { AboutSection } from "@/components/sections/about";
+import { TestimonialsSection } from "@/components/sections/testimonials";
+import { CTASection } from "@/components/sections/cta";
+import { GallerySection } from "@/components/sections/gallery";
+import { ContactSection } from "@/components/sections/contact";
+import { LazySection } from "@/components/common";
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [targetSlideIndex, setTargetSlideIndex] = useState(0);
-  const [transitionPhase, setTransitionPhase] = useState('idle'); // 'idle', 'fadeOut', 'fadeIn'
-  
+  // Banner content for hero section
   const bannerContent = [
     {
       src: getImagePath('/banner1.png'),
@@ -45,512 +37,187 @@ export default function Home() {
     }
   ];
 
-  // Auto-advance slides with unified rhythm
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (transitionPhase === 'idle') {
-        const target = (currentSlide + 1) % bannerContent.length;
-        initiateTransition(target);
-      }
-    }, 6000); // Elegant 6 second timing
-    return () => clearInterval(timer);
-  }, [currentSlide, transitionPhase, bannerContent.length]);
-
-  // Simple transition orchestrator
-  const initiateTransition = (targetSlide: number) => {
-    if (transitionPhase === 'idle' && targetSlide !== currentSlide) {
-      setTargetSlideIndex(targetSlide);
-
-      // Phase 1: Quick fade out (0.4s)
-      setTransitionPhase('fadeOut');
-
-      setTimeout(() => {
-        // Phase 2: Switch content and fade in (0.6s)
-        setCurrentSlide(targetSlide);
-        setTransitionPhase('fadeIn');
-
-        setTimeout(() => {
-          // Phase 3: Return to idle
-          setTransitionPhase('idle');
-        }, 600);
-      }, 400);
+  // Featured dishes data
+  const featuredDishes = [
+    {
+      id: "butter-chicken",
+      name: "Butter Chicken",
+      description: "A royal dish from the kitchens of Punjab, featuring tender chicken in a rich tomato gravy, finished with cream and butter powder.",
+      image: getImagePath("/images/menu/BUTTER CHICKEN (PUNJAB).png"),
+      region: "Punjab",
+      isVegetarian: false,
+      isSignature: true,
+      spiceLevel: 2
+    },
+    {
+      id: "galauti-kebab",
+      name: "Galauti Kebab",
+      description: "Minced goat, vetiver, rosewater ghee, fried onion, cardamom, mint chutney",
+      image: getImagePath("/images/menu/GALAUTI KEBAB (LUCKNOW).png"),
+      region: "Lucknow",
+      isVegetarian: false,
+      isSignature: true,
+      spiceLevel: 3
+    },
+    {
+      id: "nalli-biryani",
+      name: "Nalli Biryani",
+      description: "Lamb shank, saffron, mint, and yogurt",
+      image: getImagePath("/images/menu/NALLI BIRYANI (HYDERABAD).png"),
+      region: "Hyderabad",
+      isVegetarian: false,
+      isSignature: true,
+      spiceLevel: 2
     }
-  };
-
-  const nextSlide = () => {
-    const target = (currentSlide + 1) % bannerContent.length;
-    initiateTransition(target);
-  };
-
-  const prevSlide = () => {
-    const target = (currentSlide - 1 + bannerContent.length) % bannerContent.length;
-    initiateTransition(target);
-  };
+  ];
 
   return (
     <main className="min-h-screen">
-      {/* Hero Banner Section */}
-      <section className="relative h-screen overflow-hidden">
-        {/* Smooth Crossfade Images with Continuous Zoom */}
-        <AnimatePresence mode="wait">
-          {bannerContent.map((image, index) => {
-            const isActive = index === currentSlide;
-            const isNext = index === targetSlideIndex && transitionPhase !== 'idle';
+      {/* Hero Banner Section - Using our new BannerHero component */}
+      <BannerHero 
+        slides={bannerContent}
+        primaryButtonText="Reserve a Table"
+        primaryButtonLink="/reservations"
+        secondaryButtonText="View Menu"
+        secondaryButtonLink="/menu"
+      />
 
-            return (
-              <motion.div
-                key={`image-${index}`}
-                initial={{ opacity: 0, scale: 1 }}
-                animate={{
-                  opacity: isActive ? 1 : 0,
-                  scale: isActive ? 1.15 : 1,
-                  transition: {
-                    opacity: { 
-                      duration: isActive ? 0.6 : 0.4,
-                      ease: "easeInOut"
-                    },
-                    scale: {
-                      duration: isActive ? 6 : 0.4,
-                      ease: isActive ? "linear" : "easeOut"
-                    }
-                  }
-                }}
-                exit={{ opacity: 0, scale: 1.1 }}
-                className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: `url(${image.src})`,
-                  zIndex: isActive ? 2 : 0
-                }}
-              />
-            );
-          })}
-        </AnimatePresence>
+      {/* Heritage Section - Using our new AboutSection component */}
+      <AboutSection 
+        title="Where Tradition Meets Innovation"
+        subtitle="Our Heritage"
+        description="In the heart of culinary excellence, we craft an experience where centuries of traditional wisdom intertwine with contemporary artistry. Each dish is a testament to our commitment to preserving the authentic essence of Indian cuisine while embracing the possibilities of modern gastronomy."
+        imageSrc={getImagePath("/banner2_new.png")}
+        imageAlt="Traditional Banjara Cuisine"
+        direction="image-left"
+        decorative={true}
+      />
 
-        {/* Much Darker Heritage Overlay */}
-        <div
-          className="absolute inset-0 z-10"
-          style={{
-            background: `linear-gradient(135deg,
-              rgba(28, 28, 28, 0.85) 0%,
-              rgba(28, 28, 28, 0.75) 25%,
-              rgba(196, 181, 151, 0.1) 50%,
-              rgba(28, 28, 28, 0.75) 75%,
-              rgba(28, 28, 28, 0.85) 100%)`
+      {/* Featured Dishes Section - Using our new FeaturedDishes component */}
+      <FeaturedDishes 
+        dishes={featuredDishes}
+        title="Chef's Featured Creations"
+        subtitle="Discover our most celebrated dishes, each telling a unique story of India's rich culinary heritage"
+        viewAllLink="/menu"
+      />
+
+      {/* Testimonials Section - Lazy loaded */}
+      <LazySection id="testimonials-section">
+        <TestimonialsSection 
+          testimonials={[
+            {
+              id: "testimonial-1",
+              name: "Priya Sharma",
+              role: "Food Critic",
+              quote: "The flavors at Banjara transported me back to the streets of Delhi. Every dish tells a story of tradition and innovation.",
+              // Using existing banner images as placeholders
+              image: getImagePath("/banner1.png"),
+              rating: 5
+            },
+            {
+              id: "testimonial-2",
+              name: "James Wilson",
+              role: "Regular Guest",
+              quote: "I've dined at many Indian restaurants, but Banjara stands out with its authentic flavors and impeccable service.",
+              image: getImagePath("/banner2_new.png"),
+              rating: 5
+            },
+            {
+              id: "testimonial-3",
+              name: "Aisha Patel",
+              role: "Food Blogger",
+              quote: "The attention to detail in each dish is remarkable. The chef's passion for Indian cuisine is evident in every bite.",
+              image: getImagePath("/banner3.png"),
+              rating: 4
+            },
+            {
+              id: "testimonial-4",
+              name: "Michael Chen",
+              role: "First-time Visitor",
+              quote: "An unforgettable dining experience! The blend of spices was perfectly balanced, and the staff made excellent recommendations.",
+              rating: 5
+            }
+          ]}
+        />
+      </LazySection>
+
+      {/* Gallery Section - Lazy loaded */}
+      <LazySection id="gallery-section">
+        <GallerySection 
+        images={[
+          {
+            id: "gallery-1",
+            src: getImagePath("/banner1.png"),
+            alt: "Elegant Restaurant Interior",
+            category: "Interior"
+          },
+          {
+            id: "gallery-2",
+            src: getImagePath("/banner2_new.png"),
+            alt: "Signature Butter Chicken",
+            category: "Food"
+          },
+          {
+            id: "gallery-3",
+            src: getImagePath("/banner3.png"),
+            alt: "Chef's Special Preparation",
+            category: "Chefs"
+          },
+          {
+            id: "gallery-4",
+            src: getImagePath("/banner1.png"),
+            alt: "Private Dining Area",
+            category: "Interior"
+          },
+          {
+            id: "gallery-5",
+            src: getImagePath("/banner2_new.png"),
+            alt: "Vegetarian Thali Platter",
+            category: "Food"
+          },
+          {
+            id: "gallery-6",
+            src: getImagePath("/banner3.png"),
+            alt: "Spice Selection Process",
+            category: "Chefs"
+          }
+        ]}
+        categories={["Interior", "Food", "Chefs"]}
+        />
+      </LazySection>
+
+      {/* CTA Section - Lazy loaded */}
+      <LazySection id="cta-section">
+        <CTASection 
+          title="Reserve Your Table Today"
+          subtitle="Experience the authentic flavors of India in an elegant setting"
+          primaryButtonText="Make a Reservation"
+          primaryButtonLink="/reservations"
+          secondaryButtonText="View Menu"
+          secondaryButtonLink="/menu"
+          tertiaryButtonText="Call Us"
+          tertiaryButtonLink="tel:+15551234567"
+          phoneNumber="+1 (555) 123-4567"
+          backgroundImage={getImagePath("/banner1.png")}
+        />
+      </LazySection>
+      
+      {/* Contact Section - Lazy loaded */}
+      <LazySection id="contact-section">
+        <ContactSection 
+          contactInfo={{
+            address: "123 Spice Avenue, Culinary District, New York, NY 10001",
+            phone: "+1 (555) 123-4567",
+            email: "info@banjaraindian.com",
+            hours: {
+              weekdays: "11:00 AM - 10:00 PM",
+              weekends: "12:00 PM - 11:00 PM"
+            },
+            // Use a simple static map URL to avoid Google Maps JavaScript errors
+            mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425872426698!3d40.74076987932881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1696005254330!5m2!1sen!2sus"
           }}
-        ></div>
-        <div
-          className="absolute inset-0 z-10"
-          style={{
-            background: `linear-gradient(to top,
-              rgba(28, 28, 28, 0.85) 0%,
-              rgba(28, 28, 28, 0.75) 50%,
-              rgba(28, 28, 28, 0.85) 100%)`
-          }}
-        ></div>
-        {/* Heavy Edge Darkening */}
-        <div
-          className="absolute inset-0 z-10"
-          style={{
-            background: `radial-gradient(ellipse at center,
-              transparent 25%,
-              rgba(28, 28, 28, 0.3) 60%,
-              rgba(28, 28, 28, 0.6) 90%,
-              rgba(28, 28, 28, 0.8) 100%)`
-          }}
-        ></div>
-
-        {/* Content with Beautiful Text Effects */}
-        <div className="absolute inset-0 flex items-center justify-center z-20">
-          <div className="container text-center text-white">
-            <div className="max-w-5xl mx-auto">
-              {/* Title */}
-              <h1
-                key={`title-${currentSlide}`}
-                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 md:mb-6 leading-tight tracking-wide"
-                style={{
-                  color: '#d9c5a0',
-                  textShadow: '0 4px 10px rgba(0,0,0,0.8)',
-                  fontFamily: 'var(--font-display)',
-                  transform: transitionPhase === 'fadeOut' ? 'translateY(-20px)' :
-                            transitionPhase === 'fadeIn' ? 'translateY(30px)' :
-                            'translateY(0px)',
-                  opacity: transitionPhase === 'idle' ? 1 : 0,
-                  transition: transitionPhase === 'fadeOut'
-                    ? 'all 0.4s cubic-bezier(0.4, 0, 0.6, 1)'
-                    : 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                  letterSpacing: '0.05em',
-                  wordSpacing: '0.2em'
-                }}
-              >
-                {bannerContent[currentSlide].title.split(' ').map((word, index) => (
-                  <span
-                    key={`${currentSlide}-${index}`}
-                    className="inline-block"
-                    style={{
-                      transform: transitionPhase === 'fadeOut' ? 'translateY(-15px)' :
-                                transitionPhase === 'fadeIn' ? 'translateY(20px)' :
-                                'translateY(0px)',
-                      opacity: transitionPhase === 'idle' ? 1 : 0,
-                      transition: transitionPhase === 'fadeOut'
-                        ? `all 0.4s cubic-bezier(0.4, 0, 0.6, 1) ${index * 0.05}s`
-                        : `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${0.3 + (index * 0.1)}s`,
-                      marginRight: '0.2em'
-                    }}
-                  >
-                    {word === bannerContent[currentSlide].accent ? (
-                      <span
-                        style={{
-                          color: '#e6c07a',
-                          textShadow: '0 4px 15px rgba(0,0,0,0.9), 0 0 20px rgba(230, 192, 122, 0.3)'
-                        }}
-                      >
-                        {word}
-                      </span>
-                    ) : (
-                      <span>{word}</span>
-                    )}
-                  </span>
-                ))}
-              </h1>
-
-              {/* Enhanced Subtitle with Improved Typography */}
-              <p
-                key={`subtitle-${currentSlide}`}
-                className="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 px-4"
-                style={{
-                  color: '#c4b597',
-                  lineHeight: '1.8',
-                  fontWeight: 400,
-                  fontFamily: 'var(--font-body)',
-                  opacity: transitionPhase === 'idle' ? 1 : 0,
-                  transform: transitionPhase === 'fadeOut' ? 'translateY(-10px) scale(0.98)' :
-                            transitionPhase === 'fadeIn' ? 'translateY(20px) scale(0.98)' :
-                            'translateY(0) scale(1)',
-                  transition: transitionPhase === 'fadeOut'
-                    ? 'all 0.4s cubic-bezier(0.4, 0, 0.6, 1) 0.05s'
-                    : 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.65s',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.4)',
-                }}
-              >
-                {bannerContent[currentSlide].subtitle.split(' ').map((word, index) => (
-                  <span
-                    key={`subtitle-word-${currentSlide}-${index}`}
-                    className="inline-block"
-                    style={{
-                      opacity: transitionPhase === 'idle' ? 1 : 0,
-                      transform: transitionPhase === 'fadeOut' ? 'translateY(-5px)' :
-                                transitionPhase === 'fadeIn' ? 'translateY(10px)' :
-                                'translateY(0)',
-                      transition: transitionPhase === 'fadeOut'
-                        ? `all 0.3s cubic-bezier(0.4, 0, 0.6, 1) ${0.05 + (index * 0.01)}s`
-                        : `all 0.5s cubic-bezier(0.4, 0, 0.2, 1) ${0.7 + (index * 0.015)}s`,
-                      marginRight: '0.25em'
-                    }}
-                  >
-                    {word}
-                  </span>
-                ))}
-              </p>
-
-              {/* CTA Buttons - Exact Styling from Original */}
-              <div 
-                className="flex flex-col sm:flex-row justify-center gap-6"
-                style={{
-                  opacity: transitionPhase === 'idle' ? 1 : 0,
-                  transform: transitionPhase === 'fadeOut' ? 'translateY(-5px)' :
-                            transitionPhase === 'fadeIn' ? 'translateY(15px)' :
-                            'translateY(0)',
-                  transition: transitionPhase === 'fadeOut'
-                    ? 'opacity 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0.1s, transform 0.3s cubic-bezier(0.4, 0, 0.6, 1) 0.1s'
-                    : 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.8s, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.8s',
-                }}
-              >
-                <Link href="/reservations">
-                  <button
-                    className="group px-8 sm:px-10 py-3.5 text-base font-medium rounded-full transition-colors duration-300 border-2 shadow-lg"
-                    style={{
-                      backgroundColor: '#795939',
-                      color: '#e6c07a',
-                      borderColor: '#8a6642',
-                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#e6c07a';
-                      e.currentTarget.style.color = '#4b371f';
-                      e.currentTarget.style.borderColor = '#e6c07a';
-                      e.currentTarget.style.boxShadow = '0 6px 15px rgba(230, 192, 122, 0.3)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#795939';
-                      e.currentTarget.style.color = '#e6c07a';
-                      e.currentTarget.style.borderColor = '#8a6642';
-                      e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="tracking-wide">Reserve a Table</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </div>
-                  </button>
-                </Link>
-                <Link href="/menu">
-                    <button
-                      className="group px-8 sm:px-10 py-4 text-base font-medium rounded-full transition-all duration-300 border-2 isolate overflow-hidden"
-                      style={{
-                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                        color: '#e6c07a',
-                        borderColor: 'rgba(230, 192, 122, 0.4)',
-                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-                        backdropFilter: 'blur(4px)',
-                        // Type-safe way to define vendor prefix
-                        WebkitBackdropFilter: 'blur(4px)' as any,
-                        transition: 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                        e.currentTarget.style.color = '#ffffff';
-                        e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.6)';
-                        e.currentTarget.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.3)';
-                        e.currentTarget.style.backdropFilter = 'blur(4px)';
-                        // Use type assertion to fix TypeScript error with vendor prefix
-                        (e.currentTarget.style as any)['-webkit-backdrop-filter'] = 'blur(4px)';
-                        e.currentTarget.style.transition = 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-                        e.currentTarget.style.color = '#e6c07a';
-                        e.currentTarget.style.borderColor = 'rgba(230, 192, 122, 0.4)';
-                        e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
-                        e.currentTarget.style.backdropFilter = 'blur(4px)';
-                        // Use type assertion to fix TypeScript error with vendor prefix
-                        (e.currentTarget.style as any)['-webkit-backdrop-filter'] = 'blur(4px)';
-                        e.currentTarget.style.transition = 'all 0.3s ease, backdrop-filter 0s, -webkit-backdrop-filter 0s';
-                      }}
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="tracking-wide">View Menu</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                      </div>
-                    </button>
-                  </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation Arrows - Hidden Until Hover, Full Height Clickable Areas */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-0 top-0 bottom-0 w-[15%] flex items-center justify-start pl-4 sm:pl-8 z-20 opacity-0 hover:opacity-100 transition-opacity duration-300 group"
-          aria-label="Previous slide"
-        >
-          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-black/20 backdrop-blur-sm border border-white/10 group-hover:bg-black/30 group-hover:border-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </div>
-        </button>
-
-        <button
-          onClick={nextSlide}
-          className="absolute right-0 top-0 bottom-0 w-[15%] flex items-center justify-end pr-4 sm:pr-8 z-20 opacity-0 hover:opacity-100 transition-opacity duration-300 group"
-          aria-label="Next slide"
-        >
-          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-black/20 backdrop-blur-sm border border-white/10 group-hover:bg-black/30 group-hover:border-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </button>
-
-        {/* Banner Navigation - Exact Styling from Original */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-          <div className="flex gap-3">
-            {bannerContent.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => initiateTransition(index)}
-                className={`transition-all duration-300 focus:outline-none`}
-                aria-label={`Go to slide ${index + 1}`}
-              >
-                <div 
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentSlide === index
-                      ? "bg-amber-400 scale-110"
-                      : "bg-white/30 hover:bg-white/50"
-                  }`}
-                  style={{
-                    boxShadow: currentSlide === index ? '0 0 8px rgba(230, 192, 122, 0.6)' : 'none'
-                  }}
-                />
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Transition Section */}
-      <section className="relative bg-charcoal-900 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-warm-400/5 via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-500/5 via-transparent to-transparent" />
-        </div>
-
-        <div className="container-luxury relative z-10 py-32">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="max-w-6xl mx-auto"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              {/* Left Column - Image */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="relative aspect-[4/5] w-full max-w-[500px] mx-auto lg:mx-0"
-              >
-                <div className="relative w-full h-full rounded-2xl overflow-hidden">
-                  <Image
-                    src={getImagePath("/banner2.png")}
-                    alt="Traditional Banjara Cuisine"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 500px"
-                    className="object-cover"
-                    quality={95}
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/50 to-transparent" />
-                </div>
-                
-                {/* Decorative Squares */}
-                <div className="absolute -top-6 -left-6 w-24 h-24 border border-warm-400/20 rounded-2xl backdrop-blur-sm" />
-                <div className="absolute -bottom-6 -right-6 w-32 h-32 border border-amber-500/20 rounded-2xl backdrop-blur-sm" />
-              </motion.div>
-
-              {/* Right Column - Content */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="relative px-4 sm:px-6 lg:px-0"
-              >
-                <div className="inline-flex items-center gap-4 mb-10 sm:mb-14">
-                  <div className="h-px w-16 sm:w-24 bg-gradient-to-r from-transparent to-warm-400" />
-                  <span className="text-warm-400 text-sm font-medium tracking-[0.5em] uppercase font-body">
-                    Our Heritage
-                  </span>
-                  <div className="h-px w-16 sm:w-24 bg-gradient-to-l from-transparent to-warm-400" />
-                </div>
-                
-                <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-white mb-10 sm:mb-14 leading-[1.05] tracking-tight">
-                  Where Tradition
-                  <br />
-                  <span className="text-gradient-warm font-light tracking-wide">
-                    Meets Innovation
-                  </span>
-                </h2>
-                
-                <p className="text-lg sm:text-xl lg:text-2xl text-stone-200/80 mb-8 font-body leading-relaxed tracking-wide max-w-2xl">
-                  In the heart of culinary excellence, we craft an experience where centuries of 
-                  traditional wisdom intertwine with contemporary artistry. Each dish is a testament 
-                  to our commitment to preserving the authentic essence of Indian cuisine while 
-                  embracing the possibilities of modern gastronomy.
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Chef's Featured Creations Section */}
-      <section className="py-20 bg-charcoal-900 overflow-hidden relative">
-        {/* Enhanced ambient background elements with larger, more blurred circles */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Large charcoal circle in center-right - using charcoal-500 */}
-          <div 
-            className="absolute top-1/2 right-1/3 transform -translate-y-1/2" 
-            style={{ 
-              width: '800px', 
-              height: '800px', 
-              background: 'radial-gradient(circle, rgba(109, 109, 109, 0.25) 0%, rgba(109, 109, 109, 0.1) 60%, transparent 100%)',
-              filter: 'blur(150px)',
-              opacity: 0.9
-            }}
-          ></div>
-          
-          {/* Extra large deep charcoal circle in bottom-left - using charcoal-700 */}
-          <div 
-            className="absolute -bottom-1/4 -left-1/4" 
-            style={{ 
-              width: '1200px', 
-              height: '1200px', 
-              background: 'radial-gradient(circle, rgba(79, 79, 79, 0.3) 0%, rgba(79, 79, 79, 0.12) 70%, transparent 100%)',
-              filter: 'blur(180px)',
-              opacity: 0.8
-            }}
-          ></div>
-          
-          {/* Light charcoal circle in top-left - using charcoal-400 */}
-          <div 
-            className="absolute -top-1/4 -left-1/4" 
-            style={{ 
-              width: '1000px', 
-              height: '1000px', 
-              background: 'radial-gradient(circle, rgba(136, 136, 136, 0.18) 0%, rgba(136, 136, 136, 0.08) 60%, transparent 100%)',
-              filter: 'blur(160px)',
-              opacity: 0.6
-            }}
-          ></div>
-          
-          {/* Subtle highlight circle in top-right - using charcoal-300 */}
-          <div 
-            className="absolute top-0 right-0" 
-            style={{ 
-              width: '900px', 
-              height: '900px', 
-              background: 'radial-gradient(circle, rgba(176, 176, 176, 0.1) 0%, rgba(176, 176, 176, 0.04) 60%, transparent 100%)',
-              filter: 'blur(170px)',
-              opacity: 0.7
-            }}
-          ></div>
-        </div>
-        
-        <div className="container mx-auto px-4">
-          {/* Section Header */}
-          <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-5 tracking-tight drop-shadow-sm" style={{ color: '#e6c07a' }}>
-                Chef's <span style={{ color: '#f3d296', textShadow: '0 0 20px rgba(230, 192, 122, 0.3)' }}>Featured</span> Creations
-              </h2>
-              <p className="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed font-medium tracking-wide" style={{ color: 'rgba(228, 221, 207, 0.85)' }}>
-                Discover our most celebrated dishes, each telling a unique story of India's rich culinary heritage
-              </p>
-            </motion.div>
-          </div>
-
-          {/* Simple Featured Dishes */}
-          <div className="w-full overflow-hidden">
-            <FeaturedDishesSimple />
-          </div>
-        </div>
-      </section>
-
-      {/* Rest of the sections */}
+        />
+      </LazySection>
     </main>
   );
 }

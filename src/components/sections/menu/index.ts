@@ -1,1 +1,1 @@
-export { default as MenuPreviewSection } from './MenuPreviewSection';
+// Menu section components will be added here

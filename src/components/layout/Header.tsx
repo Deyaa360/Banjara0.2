@@ -106,7 +106,7 @@ const Header = () => {
         ref={headerRef}
         className={cn(
           "banjara-header fixed left-0 w-full z-50 transition-all duration-300 border-b",
-          "md:top-[40px]", // Offset for the top bar on desktop
+          "md:top-[40px]", // Restore offset for desktop so header can animate out of view
           "top-0", // No offset on mobile
           isScrolled 
             ? "active bg-charcoal-900/95 backdrop-blur-lg shadow-elegant border-gold-400/30 py-3 md:py-4" 
@@ -122,7 +122,7 @@ const Header = () => {
                 src={getImagePath("/LOGO.png")} 
                 alt="Banjara Logo" 
                 fill 
-                sizes="(max-width: 768px) 80px, 80px"
+                sizes="80px"
                 className="object-contain" 
                 priority 
               />
@@ -195,9 +195,9 @@ const Header = () => {
               src={getImagePath("/LOGO.png")} 
               alt="Banjara Logo" 
               fill 
-              sizes="(max-width: 768px) 64px, 64px"
+              sizes="64px"
               className="object-contain" 
-              priority 
+              loading="eager" 
             />
           </Link>
           <button

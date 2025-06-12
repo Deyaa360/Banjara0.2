@@ -20,22 +20,16 @@ export const GoogleMap: React.FC<GoogleMapProps> = ({
   useEffect(() => {
     setIsMounted(true);
     
-    // Add window error handler for Google Maps errors
-    const handleError = (event: ErrorEvent) => {
-      if (
-        event.message.includes('browser is not defined') ||
-        event.message.includes('Google Maps') ||
-        event.filename?.includes('maps.googleapis.com')
-      ) {
-        setMapError(true);
-        event.preventDefault();
-      }
+    // Simplified error handling to avoid browser reference issues
+    const handleIframeError = () => {
+      setMapError(true);
     };
-
-    window.addEventListener('error', handleError);
+    
+    // We'll set up the error handler on the iframe directly instead
+    // of using window.addEventListener
     
     return () => {
-      window.removeEventListener('error', handleError);
+      // No cleanup needed
     };
   }, []);
 
